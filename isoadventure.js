@@ -8,11 +8,10 @@ var gGraphics;
 var gInput;
 
 
-var test = false;
 var fr1;
 var fr2;
-var fr3;
 
+var tileSheet = new TileSheet("assets/goblin.png",128,128);
 
 function init() {
 
@@ -23,7 +22,7 @@ function init() {
 
 
 	fr1 = gGraphics.createFrame("test1",0,0,gGraphics.getScreenWidth(),gGraphics.getScreenHeight(),0);
-	gGraphics.setFrameBgColor(fr1,"blue");
+	gGraphics.setFrameBgColor(fr1,"green");
 	gGraphics.setFrameUpdateFn(fr1,testUpdate1);
 	gGraphics.setFrameEnabled(fr1,true);
 
@@ -31,11 +30,7 @@ function init() {
 	gGraphics.setFrameBgColor(fr2,"yellow");
 	gGraphics.setFrameUpdateFn(fr2,testUpdate2);
 
-	fr3 = gGraphics.createFrame("test3",100,100,100,100,0);
-	gGraphics.setFrameBgColor(fr3,"red");
-	gGraphics.setFrameUpdateFn(fr3,testUpdate1);
-	gGraphics.setFrameEnabled(fr3,true);
-	gGraphics.setFrameParent(fr3,fr1);
+
 
 
 	window.requestAnimationFrame(update);
@@ -49,7 +44,19 @@ function update() {
 	window.requestAnimationFrame(update);
 }
 
-function testUpdate1(frame) {gGraphics.clear(frame);}
+
+var curFrame = 0;
+function testUpdate1(frame) {
+	gGraphics.clear(frame);
+	if (gGraphics.doAnimation()) {
+		curFrame++;
+	}
+
+	tileSheet.drawTile(frame,10,10,curFrame % 48);
+
+	gGraphics.text(frame,100,100,(curFrame % 48).toString());
+
+}
 
 
 var widthMax = 200;

@@ -184,3 +184,54 @@ function frame() {
 }
 
 
+
+//
+// TileShets are for reading and manipulating a tilesheet.
+//
+function TileSheet(path,width,height) {
+
+	this.path = path;
+	this.tileWidth = width;
+	this.tileHeight = height;
+	
+	this.img = new Image();
+	var thisref = this;
+
+	
+	this.img.onload = function() {
+
+		console.log("Loaded TileSheet from " + path + ".");
+
+		console.log("(w,h): (",thisref.img.naturalWidth.toString() + "," + thisref.img.naturalHeight.toString() +").");
+
+		thisref.tilesPerLine 	= thisref.img.naturalWidth/thisref.tileWidth;
+		thisref.numLines 		= thisref.img.naturalHeight/thisref.tileHeight;
+		thisref.maxIndex 		= thisref.tilesPerLine * thisref.numLines - 1;
+
+
+		console.log("   " + (thisref.tilesPerLine * thisref.numLines).toString() + " " + thisref.tileWidth.toString() + "X" + 
+			thisref.tileHeight.toString() + " tiles loaded.");
+
+	};
+
+	this.img.src = this.path;
+
+	this.getTileX 			= function(index) 	{return parseInt(index%this.tilesPerLine) * this.tileWidth;}
+	this.getTileY 			= function(index) 	{return parseInt(index/this.tilesPerLine) * this.tileHeight;}
+	this.getTilesPerLine 	= function() 		{return this.tilesPerLine;}
+	this.getMaxIndex		= function()		{return this.maxIndex;}
+	this.getTileWidth		= function()		{return this.tileWidth;}
+	this.getTileHeight		= function() 		{return this.tileHeight;}
+
+	this.drawTile			= function(frame,x,y,index) {
+		var dx = gGraphics.toScreenX(frame,x);
+		var dy = gGraphics.toScreenY(frame,y);
+		gGraphics.ctx.drawImage(
+			this.img,
+			this.getTileX(index),this.getTileY(index),this.tileWidth,this.tileHeight,
+			dx,dy,this.tileWidth,this.tileHeight);
+	}
+}
+
+
+
