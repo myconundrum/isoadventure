@@ -1,0 +1,423 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"_",
+				"_get_exit_dbref"
+			],
+			[
+				"EXI",
+				"EXIT_FLAG"
+			],
+			[
+				"FLAG",
+				"ROOM_FLAG"
+			],
+			[
+				"EXIT",
+				"EXIT_FLAG"
+			],
+			[
+				"_split",
+				"_split_command_string_on"
+			],
+			[
+				"d64_directo",
+				"d64_directory_entry_by_name"
+			],
+			[
+				"g_",
+				"g_vdrive_kpatch_1"
+			],
+			[
+				"VICII_RASTER_Y",
+				"VICII_RASTER_Y_LAST_VISIBLE_LINE_PAL"
+			],
+			[
+				"VICII_RASTER",
+				"VICII_RASTER_X_FIRST_VISIBLE_PIXEL_NTSC"
+			],
+			[
+				"VICII_v",
+				"VICII_PAL_VBLANK_LEFT"
+			],
+			[
+				"VICII_PALV_",
+				"VICII_PAL_VBLANK_LEFT"
+			],
+			[
+				"NTSC",
+				"NTSC_LINES"
+			],
+			[
+				"VICII_NTSC",
+				"VICII_NTSC_LINE_START_X"
+			],
+			[
+				"VICII_NTSC_SCREEN",
+				"VICII_NTSC_SCREENFRAME_WIDTH"
+			],
+			[
+				"uint",
+				"Uint32"
+			],
+			[
+				"tik",
+				"tickspersec"
+			],
+			[
+				"ux_handl",
+				"ux_handlec64joystick2"
+			],
+			[
+				"KERNA",
+				"KERNAL_ROM_LOW_ADDRESS"
+			],
+			[
+				"brk",
+				"brk_address"
+			],
+			[
+				"irq",
+				"irqbackground"
+			],
+			[
+				"VICII_SPRIT",
+				"VICII_SPRITEPRI"
+			],
+			[
+				"VICII_BACK",
+				"VICII_EBACKCOL1"
+			],
+			[
+				"VICII_MSR",
+				"VICII_MEMSR"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/marcw/code/html5/webband/ui.js",
+		"/Users/marcw/code/html5/webband/player.js",
+		"/Users/marcw/code/html5/webband/uigame.js",
+		"/Users/marcw/code/html5/webband/uimessages.js",
+		"/Users/marcw/code/html5/webband/uichar.js",
+		"/Users/marcw/code/html5/webband/target.js",
+		"/Users/marcw/code/html5/webband/mgr.js",
+		"/Users/marcw/code/html5/webband/messages.js",
+		"/Users/marcw/code/html5/webband/main.js",
+		"/Users/marcw/code/html5/webband/light.js",
+		"/Users/marcw/code/html5/webband/level.js",
+		"/Users/marcw/code/html5/webband/inventory.js",
+		"/Users/marcw/code/html5/webband/input.js",
+		"/Users/marcw/code/html5/webband/gameobject.js",
+		"/Users/marcw/code/html5/webband/gamestate.js",
+		"/Users/marcw/code/html5/webband/fov.js",
+		"/Users/marcw/code/html5/webband/effects.js",
+		"/Users/marcw/code/html5/webband/dungeon.js",
+		"/Users/marcw/code/html5/webband/defn.js",
+		"/Users/marcw/code/html5/webband/db.js",
+		"/Users/marcw/code/html5/webband/combat.js",
+		"/Users/marcw/code/html5/webband/ai.js",
+		"/Users/marcw/code/html5/webband/actions.js",
+		"/Users/marcw/code/html5/webband/webband.html",
+		"/Users/marcw/code/html5/isoadventure/main.htm",
+		"/Users/marcw/code/html5/jsrl/messages.js",
+		"/Users/marcw/code/html5/jsrl/player.js",
+		"/Users/marcw/code/html5/jsrl/debug.js",
+		"/Users/marcw/code/html5/jsrl/gamestate.js",
+		"/Users/marcw/code/html5/jsrl/rl.js",
+		"/Users/marcw/code/html5/jsrl/cfg_data.js",
+		"/Users/marcw/code/html5/jsrl/tilemap",
+		"/Users/marcw/code/html5/castle/castle.js",
+		"/Users/marcw/code/c/blackjack/main.c",
+		"/Users/marcw/code/html5/3dtest/PointerLockControls.js",
+		"/Users/marcw/code/html5/3dtest/vertex_code.js",
+		"/Users/marcw/code/html5/3dtest/fragment_shader.js",
+		"/Users/marcw/code/html5/raycast/raycast.html",
+		"/Users/marcw/code/html5/raycast/raycast_old.js",
+		"/Users/marcw/code/html5/raycast/raycast.js",
+		"/Users/marcw/code/html5/pixitest/test.js",
+		"/Users/marcw/code/html5/pixitest/main.html",
+		"/Users/marcw/code/html5/castle/castle.html",
+		"/Users/marcw/code/html5/castle/gameobjects.js",
+		"/Users/marcw/code/html5/castle/sprite.js",
+		"/Users/marcw/code/golang/test/foo.py",
+		"/Users/marcw/code/golang/test/test.go",
+		"/Users/marcw/code/python/pymud/player.py",
+		"/Users/marcw/code/python/pymud/main.py",
+		"/Users/marcw/code/python/pymud/clients.py",
+		"/Users/marcw/code/python/pymud/db.py",
+		"/Users/marcw/code/python/pymud/mush_commands.py",
+		"/Users/marcw/code/python/pymud/world.py",
+		"/Users/marcw/code/python/miniboa-py3/handler_demo.py",
+		"/Users/marcw/code/python/pymud/miniboa/chat_demo.py",
+		"/Users/marcw/code/python/pymud/miniboa/telnet.py",
+		"/Users/marcw/code/python/pymud/miniboa/async.py",
+		"/Users/marcw/code/python/tetris/view.py",
+		"/Users/marcw/code/python/tetris/controller.py",
+		"/Users/marcw/code/python/tetris/main.py",
+		"/Users/marcw/code/python/voxel/voxel.py",
+		"/Users/marcw/code/python/3dgame/main.py",
+		"/Users/marcw/code/python/mltut/mltut.py",
+		"/Users/marcw/code/python/adventure/main.py",
+		"/Users/marcw/code/python/adventure/world.py",
+		"/Users/marcw/code/python/adventure/dungeon.py",
+		"/Users/marcw/code/python/adventure/gameobject.py",
+		"/Users/marcw/code/python/adventure/dungeon_features.py",
+		"/Users/marcw/code/python/adventure/gameobjects.ini",
+		"/Users/marcw/code/python/adventure/dungeonfeatures.ini",
+		"/Users/marcw/code/python/adventure/controller.py",
+		"/Users/marcw/code/python/adventure/view.py",
+		"/Users/marcw/code/c/rl/rl.log",
+		"/Users/marcw/code/c/rl/world.c",
+		"/Users/marcw/code/c/rl/ux.h",
+		"/Users/marcw/code/c/rl/world.h",
+		"/Users/marcw/code/c/rl/ux.c",
+		"/Users/marcw/code/c/rl/rl.h",
+		"/Users/marcw/code/c/gltest/main.c",
+		"/Users/marcw/code/c/rl/tiles.c",
+		"/Users/marcw/code/c/rl/ini.h",
+		"/Users/marcw/code/c/rl/ini.c",
+		"/Users/marcw/code/c/rl/tiles/tiles.ini",
+		"/Users/marcw/code/c/rl/main.c",
+		"/Users/marcw/code/c/rl/makefile",
+		"/Users/marcw/code/c/rl/SDL_FontCache.c",
+		"/Users/marcw/code/c/rl/SDL_FontCache.h",
+		"/Users/marcw/code/c/adv/main.c",
+		"/Users/marcw/code/rust/guessing_game/Cargo.toml",
+		"/Users/marcw/code/rust/guessing_game/src/main.rs",
+		"/Users/marcw/code/rusttest/Cargo.toml",
+		"/Users/marcw/code/rusttest/main.rs",
+		"/Users/marcw/code/pyrl/main.py",
+		"/Users/marcw/code/mq/main.c",
+		"/Users/marcw/code/mq/makefile",
+		"/Users/marcw/code/mq/object.py",
+		"/Users/marcw/code/mq/q2.py",
+		"/Users/marcw/code/mq/q.py",
+		"/Users/marcw/code/questcc/main.cc",
+		"/Users/marcw/code/quest/makefile",
+		"/Users/marcw/code/quest/list.h",
+		"/Users/marcw/code/quest/list.c",
+		"/Users/marcw/code/quest/room.c",
+		"/Users/marcw/code/quest/object.c",
+		"/Users/marcw/code/quest/object.h",
+		"/Users/marcw/code/quest/db.h",
+		"/Users/marcw/code/quest/attr.h",
+		"/Users/marcw/code/quest/attr.c",
+		"/Users/marcw/code/quest/db.c",
+		"/Users/marcw/code/quest/main.c",
+		"/Users/marcw/code/Conundrum64/src/c64/vdrive.h",
+		"/Users/marcw/code/Conundrum64/src/c64/c64.h",
+		"/Users/marcw/code/Conundrum64/src/c64/cpu.h",
+		"/Users/marcw/code/Conundrum64/src/c64/cpu.c",
+		"/Users/marcw/code/Conundrum64/src/c64/c64.c",
+		"/Users/marcw/code/Conundrum64/src/emu.h",
+		"/Users/marcw/code/Conundrum64/conundrum64.ini",
+		"/Users/marcw/code/Conundrum64/src/main.c",
+		"/Users/marcw/code/Conundrum64/src/ux/ux.h",
+		"/Users/marcw/code/Conundrum64/src/ux/ux.c",
+		"/Users/marcw/code/Conundrum64/src/c64/vdrive.c",
+		"/Users/marcw/code/Conundrum64/asm/testcart.asm",
+		"/Users/marcw/code/Conundrum64/src/c64/d64.h",
+		"/Users/marcw/code/Conundrum64/src/c64/d64.c",
+		"/Users/marcw/code/Conundrum64/con64",
+		"/Users/marcw/code/Conundrum64/c64.log",
+		"/Users/marcw/code/Conundrum64/asm/testvfs.prg",
+		"/Users/marcw/code/Conundrum64/asm/kpattn.prg"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"SendMessage",
+			"send"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/Python/Python.sublime-build",
+	"project": "main.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 186.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
