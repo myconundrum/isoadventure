@@ -1,9 +1,4 @@
-
-
-
 var FRAMEMINZ = -1;
-
-
 
 //
 // graphics subsytem.
@@ -13,6 +8,13 @@ function GameGraphics() {
 	this.canvas 	= document.getElementById("game");
 	this.ctx   		= this.canvas.getContext('2d');
 	this.frames 	= [];
+
+
+	//
+	// animation metronome, too simplistic.
+	//
+	this.timer = 0;
+	this.doAnimation = function() {return this.timer % 10 == 0;}
 
 	//
 	// management functions
@@ -25,6 +27,7 @@ function GameGraphics() {
 	}
 
 	this.update = function() {
+		this.timer++;
 		for (i = 0; i < this.frames.length; i++) {
 			if (this.frames[i].enabled && (this.frames[i].parent == null || this.frames[i].parent.enabled)) {
 				this.frames[i].update(this.frames[i]);
@@ -94,9 +97,16 @@ function GameGraphics() {
 	this.setFrameOnClickFn 	= function(frame,onClick) 		{frame.onClick = onClick;}
 	this.setFrameBgColor 	= function(frame,color) 		{frame.bgColor = color;}
 	this.setFramePosition 	= function(frame,x,y) 			{frame.x = x;frame.y = y;}
-	this.setFrameSize 		= function(frame,width,height) 	{frame.width = width;frame.y = height;}
+	this.setFrameSize 		= function(frame,width,height) 	{frame.width = width;frame.height = height;}
 	this.setFrameFont 		= function(frame,font,color) 	{frame.font = font;frame.fontColor = color;}
 	this.setFrameParent 	= function(frame,parent) 		{frame.parent = parent;}
+	this.getFrameWidth 		= function(frame) 				{return frame.width;}
+	this.getFrameHeight 	= function(frame) 				{return frame.height;}
+	this.getFrameX 			= function(frame) 				{return frame.x;}
+	this.getFrameY 			= function(frame) 				{return frame.y;}
+
+	this.getScreenWidth 	= function() 					{return this.screen.width;}
+	this.getScreenHeight 	= function() 					{return this.screen.height;}
 	
 
 	this.createFrame = function(name,x,y,width,height,zOrder) {
@@ -123,6 +133,7 @@ function GameGraphics() {
 }
 
 function screenUpdate(frame) {
+
 	gGraphics.clear(frame);
 	gGraphics.text(frame,100,100,"Hello World!");
 }
