@@ -2,7 +2,7 @@
 
 var DEBUGFRAMEWIDTH = 200
 
-var curFrame;
+var testSprite;
 
 function GameFrames() {
 
@@ -14,6 +14,9 @@ function GameFrames() {
 	this.debug = gGraphics.createFrame("debug",0,0,200,gGraphics.getScreenHeight(),0);
 	this.debug.bgColor = "gray";
 	this.debug.update = debugFrameUpdate;
+
+	testSprite = new Sprite(gAssets.sprites("goblin"));
+
 	//
 	// testing only.
 	//
@@ -27,16 +30,14 @@ function gameFrameUpdate(frame) {
 	
 	gGraphics.clear(frame);
 
-	/*
+	
 	if (gGraphics.doAnimation()) {
-		curFrame++;
-		if (curFrame > gGraphics.spriteActionStop("goblin","throw")) {
-			curFrame = gGraphics.spriteActionStart("goblin","throw");
-		}
+		testSprite.animate();
 	}
-*/
+
 	var sx,sy;
 	var tiles = gAssets.tiles("cave");
+
 
 	for (var x = 0; x < 10; x++) {
 		for (var y = 0; y < 10; y++) {
@@ -46,8 +47,7 @@ function gameFrameUpdate(frame) {
 		}
 	}
 
-	//gGraphics.drawSprite(frame,450,320,"goblin","throw","south",curFrame);
-
+	gGraphics.drawSprite(frame,450,320,testSprite);
 	
 }
 

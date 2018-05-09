@@ -36,9 +36,6 @@ function init() {
 	gFrames 	= new GameFrames();
 	gMap 		= new Map();
 
-
-
-
 	window.requestAnimationFrame(update);
 }
 

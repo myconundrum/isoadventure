@@ -95,22 +95,12 @@ class GameGraphics {
 		this._ctx.drawImage(tile.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width*2,tile.height*2);
 	}
 
-/*
-	drawSprite(frame,x,y,sprite,action,direction,index) {
-
-		var start = this.spriteSheets[sprite].actions[action].start;
+	drawSprite(frame,x,y,sprite) {
+		var index = sprite.frame + 
+			(sprite.spriteSheet.directions.indexOf(sprite.direction) * sprite.spriteSheet.tilesPerLine);
 		
-		start += index;
-		start += (this.spriteSheets[sprite].directions.indexOf(direction) * this.sprites[sprite].tileSheet.getTilesPerLine());
-
-
-		this.spriteSheets[sprite].tileSheet.drawTile(frame,x,y,start);
-
+		this.drawTile(frame,x,y,sprite.spriteSheet.getTile(index));
 	}
-
-	this.spriteActionStart = function(sprite,action) {return this.sprites[sprite].actions[action].start;}
-	this.spriteActionStop = function(sprite,action) {return this.sprites[sprite].actions[action].stop;}
-*/
 
 	getScreenWidth() 						{return this._screen.width;}
 	getScreenHeight() 						{return this._screen.height;}
@@ -221,25 +211,45 @@ class frame {
 }
 
 
-function Sprite(name) {
+//
+// Sprite is an individual sprite which keeps track of current animation through the
+// associated spritesheet.
+//
+class Sprite {
 
-	this.facing 			= "north";
-	this.action 			= "stand";
-	this.template 			= template;
-	this.animIndex 			= 0;
-	this.nextactions		=[];
+	constructor(spriteSheet) {
 
-	this.play = function(action,loop) {
-		this.action = action;
+		this._spriteSheet 	= spriteSheet;
+		this._direction 	= "north";
+		this._defaultAction = "stand";
+		this._curAction 	= "stand";
+		this._curFrame		= 0;
+		this._looping		= false;
+
+	}
+
+	get spriteSheet() 		{return this._spriteSheet;}
+	get direction() 		{return this._direction;}
+	get looping()			{return this._looping;}
+	get action() 			{return this._curAction;}
+	get defaultAction() 	{return this._defaultAction;}
+	get frame() 			{return this._curFrame;}
+
+
+	set spriteSheet(v) 		{this._spriteSheet = v;}
+	set direction(v) 		{this._direction = v;}
+	set looping(v)			{this._looping = v;}
+	set action(v) 			{this._curAction = v;}
+	set defaultAction(v) 	{this._defaultAction = v;}
+	set frame(v)			{this._curFrame = v;}
+
+	animate() {
+		this._curFrame++;
+		if (this._curFrame > this.spriteSheet.actions[this._curAction].stop) {
+			this._curFrame = this.spriteSheet.actions[this._curAction].start;
+		}
 	}
 }
-
-
-/*
-	The Tile class holds a subsection of an image, typically returned from spritesheet 
-	or tilesheet class calls.
-
-*/
 
 class Tile {
 
@@ -358,7 +368,10 @@ class SpriteSheet extends TileSheet {
 		}
 	}
 
-	get name() {return this._name;}
+
+	get name() 			{return this._name;}
+	get directions() 	{return this._directions;}
+	get actions() 		{return this._actions;}
 }
 
 
