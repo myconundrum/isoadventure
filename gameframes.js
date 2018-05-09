@@ -7,14 +7,13 @@ var curFrame;
 function GameFrames() {
 
 	this.game = gGraphics.createFrame("game",0,0,gGraphics.getScreenWidth(),gGraphics.getScreenHeight(),0);
-	gGraphics.setFrameBgColor(this.game,"black");
-	gGraphics.setFrameUpdateFn(this.game,gameFrameUpdate);
-	gGraphics.setFrameEnabled(this.game,true);
+	this.game.bgColor 	= "black";
+	this.game.update 	= gameFrameUpdate;
+	this.game.enabled 	= true;
 
 	this.debug = gGraphics.createFrame("debug",0,0,200,gGraphics.getScreenHeight(),0);
-	gGraphics.setFrameBgColor(this.debug,"gray");
-	gGraphics.setFrameUpdateFn(this.debug,debugFrameUpdate);
-
+	this.debug.bgColor = "gray";
+	this.debug.update = debugFrameUpdate;
 	//
 	// testing only.
 	//
