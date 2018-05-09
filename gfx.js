@@ -221,8 +221,6 @@ class frame {
 }
 
 
-
-
 function Sprite(name) {
 
 	this.facing 			= "north";
@@ -235,21 +233,6 @@ function Sprite(name) {
 		this.action = action;
 	}
 }
-
-
-function Animation(name,start,stop) {
-
-	this.name = name;
-	this.start = start;
-	this.stop = stop;
-
-}
-
-
-
-
-
-
 
 
 /*
@@ -333,6 +316,25 @@ class TileSheet {
 	getTile(index) {
 		return new Tile(this.image,this.tileX(index),this.tileY(index),this.tileWidth,this.tileHeight);
 	}
+}
+
+
+
+class Animation {
+
+	constructor (name,start,stop) {
+		this._name = name;
+		this._start = start;
+		this._stop = stop;
+	}
+
+	get name() 			{return this._name;}
+	get start() 		{return this._start;}
+	get stop() 			{return this._stop;}
+
+	set name(v) 		{this._name=v;}
+	set start(v) 		{this._start=v;}
+	set stop(v) 		{this._stop=v;}
 }
 
 class SpriteSheet extends TileSheet {

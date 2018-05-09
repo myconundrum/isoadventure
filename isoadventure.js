@@ -6,17 +6,25 @@
 //
 var gGraphics; 	// graphics subsystem
 var gInput;		// input subsystem
-var gFlags;		// global flags
 var gFrames;	// global game windows
 var gMap;		// global current map
 var gAssets;	// all A/V files for the game.
 
 
-function Debug() {
+class Debug {
+	constructor() {
+		this._curTile = 0;
+		this._showTile = false;
+		this._debugMode = false;
+	}
 
-	this.curTile = 0;
-	this.showTile = false;
-	this.debugMode = false;
+	get curTile() 		{return this._curTile;}
+	get showTile() 		{return this._showTile;}
+	get debugMode() 	{return this._debugMode;}
+
+	set curTile(v) 		{this._curTile = v;}
+	set showTile(v) 	{this._showTile = v;}
+	set debugMode(v) 	{this._debugMode = v;}
 }
 
 function init() {

@@ -1,8 +1,9 @@
 
 
-function Input() {
-
-	document.addEventListener( 'keydown', doKeyDown, false);
+class Input {
+	constructor() {
+		document.addEventListener( 'keydown', doKeyDown, false);
+	}
 }
 
 
@@ -22,14 +23,14 @@ function doKeyDown(e) {
 			gDebug.debugMode = !gDebug.debugMode;
 			console.log("[Debug] Debug Mode is " + gDebug.debugMode.toString() + ".");
 			if (!gDebug.debugMode) {
-				gGraphics.setFrameEnabled(gFrames.debug,false);
-				gGraphics.setFrameSize(gFrames.game,gGraphics.getScreenWidth(),gGraphics.getScreenHeight())
-				gGraphics.setFramePosition(gFrames.game,0,0);
+				gFrames.debug.enabled = false;
+				gFrames.game.width = gGraphics.getScreenWidth();
+				gFrames.game.x = 0;
 			}
 			else {
-				gGraphics.setFrameEnabled(gFrames.debug,true);
-				gGraphics.setFrameSize(gFrames.game,gGraphics.getScreenWidth()-DEBUGFRAMEWIDTH,gGraphics.getScreenHeight())
-				gGraphics.setFramePosition(gFrames.game,DEBUGFRAMEWIDTH,0);
+				gFrames.debug.enabled = true;
+				gFrames.game.width = gGraphics.getScreenWidth() - gFrames.debug.width;
+				gFrames.game.x = gFrames.debug.width;
 			}
 			break;
 		
