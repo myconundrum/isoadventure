@@ -19,13 +19,6 @@ function GameGraphics() {
 	//
 	// management functions
 	//
-	this.init = function() {
-
-		this.screen = this.createFrame("background",0,0,this.canvas.width,this.canvas.height,FRAMEMINZ);
-		this.setFrameUpdateFn(this.screen,screenUpdate);
-		this.setFrameEnabled(this.screen,true);
-	}
-
 	this.update = function() {
 		this.timer++;
 		for (i = 0; i < this.frames.length; i++) {
@@ -87,7 +80,26 @@ function GameGraphics() {
 		this.ctx.fillText(str,sx,sy);
 	}
 
+	this.drawTile = function(frame,x,y,tile) {
 
+		var dx = this.toScreenX(frame,x);
+		var dy = this.toScreenY(frame,y);
+		this.ctx.drawImage(tile.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width*2,tile.height*2);
+	}
+
+	this.drawSprite = function(frame,x,y,sprite,action,direction,index) {
+
+		var start = this.spriteSheets[sprite].actions[action].start;
+		
+		start += index;
+		start += (this.spriteSheets[sprite].directions.indexOf(direction) * this.sprites[sprite].tileSheet.getTilesPerLine());
+
+
+		this.spriteSheets[sprite].tileSheet.drawTile(frame,x,y,start);
+
+	}
+	this.spriteActionStart = function(sprite,action) {return this.sprites[sprite].actions[action].start;}
+	this.spriteActionStop = function(sprite,action) {return this.sprites[sprite].actions[action].stop;}
 
 	//
 	// frame management functions
@@ -130,6 +142,11 @@ function GameGraphics() {
 
 		return p;
 	}
+
+	this.screen = this.createFrame("background",0,0,this.canvas.width,this.canvas.height,FRAMEMINZ);
+	this.setFrameUpdateFn(this.screen,screenUpdate);
+	this.setFrameEnabled(this.screen,true);
+
 }
 
 function screenUpdate(frame) {
@@ -185,52 +202,143 @@ function frame() {
 
 
 
-//
-// TileShets are for reading and manipulating a tilesheet.
-//
-function TileSheet(path,width,height) {
 
-	this.path = path;
-	this.tileWidth = width;
-	this.tileHeight = height;
-	
-	this.img = new Image();
-	var thisref = this;
+function Sprite(name) {
 
-	
-	this.img.onload = function() {
+	this.facing 			= "north";
+	this.action 			= "stand";
+	this.template 			= template;
+	this.animIndex 			= 0;
+	this.nextactions		=[];
 
-		console.log("Loaded TileSheet from " + path + ".");
-
-		console.log("(w,h): (",thisref.img.naturalWidth.toString() + "," + thisref.img.naturalHeight.toString() +").");
-
-		thisref.tilesPerLine 	= thisref.img.naturalWidth/thisref.tileWidth;
-		thisref.numLines 		= thisref.img.naturalHeight/thisref.tileHeight;
-		thisref.maxIndex 		= thisref.tilesPerLine * thisref.numLines - 1;
-
-
-		console.log("   " + (thisref.tilesPerLine * thisref.numLines).toString() + " " + thisref.tileWidth.toString() + "X" + 
-			thisref.tileHeight.toString() + " tiles loaded.");
-
-	};
-
-	this.img.src = this.path;
-
-	this.getTileX 			= function(index) 	{return parseInt(index%this.tilesPerLine) * this.tileWidth;}
-	this.getTileY 			= function(index) 	{return parseInt(index/this.tilesPerLine) * this.tileHeight;}
-	this.getTilesPerLine 	= function() 		{return this.tilesPerLine;}
-	this.getMaxIndex		= function()		{return this.maxIndex;}
-	this.getTileWidth		= function()		{return this.tileWidth;}
-	this.getTileHeight		= function() 		{return this.tileHeight;}
-
-	this.drawTile			= function(frame,x,y,index) {
-		var dx = gGraphics.toScreenX(frame,x);
-		var dy = gGraphics.toScreenY(frame,y);
-		gGraphics.ctx.drawImage(
-			this.img,
-			this.getTileX(index),this.getTileY(index),this.tileWidth,this.tileHeight,
-			dx,dy,this.tileWidth,this.tileHeight);
+	this.play = function(action,loop) {
+		this.action = action;
 	}
+}
+
+
+function Animation(name,start,stop) {
+
+	this.name = name;
+	this.start = start;
+	this.stop = stop;
+
+}
+
+
+
+
+
+
+
+
+/*
+	The Tile class holds a subsection of an image, typically returned from spritesheet 
+	or tilesheet class calls.
+
+*/
+
+class Tile {
+
+	constructor(image,x,y,width,height) {
+		this._x 			= x;
+		this._y 			= y;
+		this._img 			= image;
+		this._width 		= width;
+		this._height 		= height;
+	}
+
+	get x() 				{return this._x;}
+	get y() 				{return this._y;}
+	get width() 			{return this._width;}
+	get height() 			{return this._height;}
+	get image() 			{return this._img;}
+
+	set x(v) 				{this._x = v;}
+	set y(v) 				{this._y = v;}
+	set width(v) 			{this._width = v;}
+	set height(v) 			{this._height = v;}
+	set image(v) 			{this._img = v;}
+	
+}
+
+
+/*
+	Tilesheet class deals with PNGs of mulitple graphics.
+*/
+
+
+
+class TileSheet {
+
+	constructor(path,width,height) {
+		
+		//
+		// private class variables
+		//
+		this._path 				= path;
+		this._tileWidth 		= width;
+		this._tileHeight 		= height;
+		this._img 				= new Image();
+	
+		//
+		// deferred image load
+		//
+		var thisref = this;
+		this._img.onload = function() {
+
+			console.log("Loaded TileSheet from " + path + ".");
+			console.log("(w,h): (",thisref._img.naturalWidth.toString() + "," + thisref._img.naturalHeight.toString() +").");
+
+			thisref._tilesPerLine 	= thisref._img.naturalWidth/thisref._tileWidth;
+			thisref._numLines 		= thisref._img.naturalHeight/thisref._tileHeight;
+			thisref._maxIndex 		= thisref._tilesPerLine * thisref._numLines - 1;
+
+			console.log("   " + (thisref._tilesPerLine * thisref._numLines).toString() + " " + thisref._tileWidth.toString() + "X" + 
+				thisref._tileHeight.toString() + " tiles loaded.");
+
+		};
+
+		this._img.src = this._path;
+	}
+
+	get image() 		{return this._img;}
+	get tilesPerLine() 	{return this._tilesPerLine;}
+	get numLines() 		{return this._numLines;}
+	get maxIndex()		{return this._maxIndex;}
+	get tileWidth()		{return this._tileWidth;}
+	get tileHeight() 	{return this._tileHeight;}
+
+	tileX(index) {return parseInt(index%this._tilesPerLine) * this._tileWidth;}
+	tileY(index) {return parseInt(index/this._tilesPerLine) * this._tileHeight;}
+
+	getTile(index) {
+		return new Tile(this.image,this.tileX(index),this.tileY(index),this.tileWidth,this.tileHeight);
+	}
+}
+
+class SpriteSheet extends TileSheet {
+
+	constructor (path,width,height,name,directions,actions) {
+		super(path,width,height);
+
+		this._name 			= name;
+		this._actions 		= {};
+		this._directions 	= directions;
+
+
+		var start = 0;
+		var stop = 0;
+
+		for (var i = 0; i < actions.length; i++) {
+			stop = start + actions[i][1] - 1;
+			var anim = new Animation(actions[i][0],start,stop);
+			this._actions[anim.name] = anim; 
+			start = stop+1;	
+		}
+	}
+
+	get name() {return this._name;}
 }
 
 
