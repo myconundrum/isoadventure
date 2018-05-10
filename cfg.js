@@ -24,6 +24,13 @@ var gConfig = {
 			"tileWidth"		: 64,
 			"tileHeight"	: 32,
 			"type"			: "tilesheet"
+		},
+		{
+			"name"			: "dungeon",
+			"path"			: "assets/dungeon_tileset.png",
+			"tileWidth"		: 64,
+			"tileHeight"	: 32,
+			"type"			: "tilesheet"
 		}
 	]
 };

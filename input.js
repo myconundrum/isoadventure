@@ -44,12 +44,12 @@ function doKeyDown(e) {
 
 		case 38:
 			if (gDebug.showTile){
-				gDebug.curTile -= tileSheet.getTilesPerLine();
+				gDebug.curTile -= gDebug.tileSheet.tilesPerLine;
 			}
 			break;
 		case 40:
 			if (gDebug.showTile){
-				gDebug.curTile += tileSheet.getTilesPerLine();
+				gDebug.curTile += gDebug.tileSheet.tilesPerLine;
 			}
 			break;
 

@@ -92,7 +92,16 @@ class GameGraphics {
 
 		var dx = this.toScreenX(frame,x);
 		var dy = this.toScreenY(frame,y);
-		this._ctx.drawImage(tile.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width*2,tile.height*2);
+		this._ctx.drawImage(tile.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width,tile.height);
+	}
+
+	drawTileEx(frame,x,y,tile,w,h) {
+
+		y = y - (h - tile.height);
+
+		var dx = this.toScreenX(frame,x);
+		var dy = this.toScreenY(frame,y);
+		this._ctx.drawImage(tile.image,tile.x,tile.y,w,h,dx,dy,w,h);
 	}
 
 	drawSprite(frame,x,y,sprite) {
@@ -244,9 +253,15 @@ class Sprite {
 	set frame(v)			{this._curFrame = v;}
 
 	animate() {
+
 		this._curFrame++;
 		if (this._curFrame > this.spriteSheet.actions[this._curAction].stop) {
-			this._curFrame = this.spriteSheet.actions[this._curAction].start;
+			if (!this._looping) {
+				this._curAction = this._defaultAction;
+			}
+			else {
+				this._curFrame = this.spriteSheet.actions[this._curAction].start;
+			}
 		}
 	}
 }

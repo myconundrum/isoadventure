@@ -1,5 +1,7 @@
 
 
+
+
 class Assets {
 	
 
@@ -48,6 +50,11 @@ class Assets {
 		
 }
 
+//
+// just for testing.
+//
+var FLOOR = 1;
+var WALL = 2;
 
 function Map() {
 
@@ -55,9 +62,14 @@ function Map() {
 	for (var x = 0; x < 10; x++) {
 		this.data[x] = new Array();
 		for (var y = 0; y < 10; y++) {
-			this.data[x][y] = 1;
+			if (y == 0) {
+				this.data[x][y] = 2;
+			} else {
+				this.data[x][y] = 1;
+			}
 		}
 	}
+	console.log(this.data);
 }
 
 
