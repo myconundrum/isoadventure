@@ -297,7 +297,7 @@ class Tile {
 
 class TileSheet {
 
-	constructor(path,width,height) {
+	constructor(path,width,height,baseWidth,baseHeight) {
 		
 		//
 		// private class variables
@@ -305,6 +305,8 @@ class TileSheet {
 		this._path 				= path;
 		this._tileWidth 		= width;
 		this._tileHeight 		= height;
+		this._baseWidth 		= baseWidth;
+		this._baseHeight		= baseHeight;
 		this._img 				= new Image();
 	
 		//
@@ -332,8 +334,11 @@ class TileSheet {
 	get tilesPerLine() 	{return this._tilesPerLine;}
 	get numLines() 		{return this._numLines;}
 	get maxIndex()		{return this._maxIndex;}
-	get tileWidth()		{return this._tileWidth;}
-	get tileHeight() 	{return this._tileHeight;}
+	get tileWidth()		{return this._tileWidth;}				// the width in pixels of each tile in the sheet.
+	get tileHeight() 	{return this._tileHeight;}				// the height in pixels of each tile in the sheet.
+	get baseWidth()		{return this._baseWidth;}				// the width of a floor tile
+	get baseHeight() 	{return this._baseHeight;}				// the height of a floor tile.
+
 
 	tileX(index) {return parseInt(index%this._tilesPerLine) * this._tileWidth;}
 	tileY(index) {return parseInt(index/this._tilesPerLine) * this._tileHeight;}
@@ -364,9 +369,9 @@ class Animation {
 
 class SpriteSheet extends TileSheet {
 
-	constructor (path,width,height,name,directions,actions) {
+	constructor (path,width,height,baseWidth,baseHeight,name,directions,actions) {
 		
-		super(path,width,height);
+		super(path,width,height,baseWidth,baseHeight);
 
 		this._name 			= name;
 		this._actions 		= {};

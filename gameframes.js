@@ -9,7 +9,7 @@ class GameFrames {
 	constructor() {
 
 		this._game = gGraphics.createFrame("game",0,0,gGraphics.getScreenWidth(),gGraphics.getScreenHeight(),0);
-		this._game.bgColor 	= "black";
+		this._game.bgColor 	= "gray";
 		this._game.update 	= gameFrameUpdate;
 		this._game.enabled 	= true;
 
@@ -37,22 +37,67 @@ function gameFrameUpdate(frame) {
 
 	var sx,sy;
 	var tiles = gAssets.tiles("dungeon");
+	var tile = 0;
+	var offset = 18;
 
 
 	for (var x = 0; x < 10; x++) {
 		for (var y = 0; y < 10; y++) {
-			sx = (x - y) * (tiles.tileWidth / 2) + 400;
-			sy = (x + y) * (tiles.tileHeight / 2) + 300;
-			if (gMap.data[x][y] == 2) {
-				gGraphics.drawTileEx(frame,sx,sy,tiles.getTile(193),64,128);
+			sx = (x - y) * (tiles.baseWidth / 2)  + 400;
+			sy = (x + y) * (tiles.baseHeight / 2)   + 300;
+			if (gMap.data[x][y] > 0) {
+				sy += 12;
 			}
+			/*
+			switch (gMap.data[x][y]) {
+				case 0: tile = 0; break;
+				case 1: 
+					
+					tile = 49; 
+					
+					sy += 12;
+				break;
+				case 2:
+					tile = 48;
+					sy += 12;
+				break;
+				case 3: 
+					tile = 61;
+					sy += 12;
+					break;
+
+			}
+			*/
+			gGraphics.drawTile(frame,sx,sy,tiles.getTile(gMap.data[x][y]));
+/*
+			if (gMap.data[x][y] == 1) {
+
+				//var xOffset = tiles.tileWidth - tiles.baseWidth / 2;
+				//var yOffset = xOffset * tiles.baseHeight / tiles.baseWidth;
+				//var wallHeight = tiles.tileHeight  - tiles.baseHeight / tiles.baseWidth;
+				//sx = x * tiles.baseWidth / 2;
+				//sy = y * wallHeight - x * tiles.baseHeight / 2;
+				//sx += 400;
+				//sy += 300;
+
+
+				sy += 8;
+				sx -= 18;
+				
+				gGraphics.drawTile(frame,sx,sy,tiles.getTile(49));
+			} 
 			else {
-				gGraphics.drawTile(frame,sx,sy,tiles.getTile(48));
+				gGraphics.drawTile(frame,sx,sy,tiles.getTile(0));
 			}
+		
+	*/
 		}
 	}
 
-	gGraphics.drawSprite(frame,450,320,gPlayer.sprite);
+
+
+
+	gGraphics.drawSprite(frame,450,420,gPlayer.sprite);
 	
 }
 
