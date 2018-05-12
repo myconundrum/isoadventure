@@ -1,6 +1,7 @@
 
 
 var DEFAULTSPRITE = "goblin"
+var DEFAULTTILE = "chest closed"
 
 
 class Point {
@@ -27,11 +28,14 @@ class GameObject {
 
 	constructor() {
 		this._loc = new Point(0,0);
+		this._tile = 0;
 	}
 
 	get loc() 		{return this._loc;}
 	set loc(v) 		{this._loc = v;}
 
+	get tile() 		{return this._tile;}
+	set tile(v)		{this._tile = v;}
 }
 
 
@@ -43,7 +47,7 @@ class Actor extends GameObject {
 	}
 
 	get sprite() 			{return this._sprite;}
-	set sprite(v)			{this._sprite = sprite;}
+	set sprite(v)			{this._sprite = v;}
 
 	setDirection(dx,dy) {
 		var northsouth = ""

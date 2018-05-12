@@ -11,12 +11,17 @@ var gMap;		// global current map
 var gAssets;	// all A/V files for the game.
 var gPlayer;	// the player.
 
+function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+
 class Debug {
 	constructor() {
 		this._curTile = 0;
 		this._showTile = false;
 		this._debugMode = false;
-		this._tileSheet = gAssets.tiles("dungeon");
+		this._tileSheet = gAssets.sprites("runes");
 	}
 
 	get curTile() 		{return this._curTile;}
@@ -40,7 +45,7 @@ function init() {
 	gMap 		= new Map();
 	gPlayer 	= new Player();
 
-
+	gPlayer.loc = new Point(300,420);
 
 	window.requestAnimationFrame(update);
 }
@@ -50,6 +55,7 @@ function update() {
 
 	gGraphics.update();
 	gPlayer.update();
+	gInput.update();
 	
 	window.requestAnimationFrame(update);
 }

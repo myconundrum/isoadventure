@@ -1,9 +1,64 @@
 
 
 class Input {
+	
 	constructor() {
+		
 		document.addEventListener( 'keydown', doKeyDown, false);
+		gGraphics.canvas.addEventListener('mousemove',onMouseMove);
+		gGraphics.canvas.addEventListener('mousedown',onMouseDown);
+
+		this._mouseClicked = false;
+
+		this._mouseX = 0;
+		this._mouseY = 0;
+
+		this._mouseSprite = new Actor();
+		this._mouseSprite.sprite = new Sprite(gAssets.sprites("runes"));
+		this._mouseSprite.sprite.direction = "none";
+		this._mouseSprite.sprite.action = "click"
+		this._mouseSprite.sprite.defaultAction = "click";
+		this._mouseSprite.looping = true;
+
+
 	}
+
+
+	registerClick() {this._mouseClicked = true;}
+
+	get mouseX() 		{return this._mouseX;}
+	get mouseY() 		{return this._mouseY;}
+	get mouseSprite() 	{return this._mouseSprite;}
+
+
+	set mouseX(v) 	{this._mouseX = v;}
+	set mouseY(v) 	{this._mouseY = v;}
+
+
+
+	update() {
+
+		if (this._mouseClicked) {
+			this._mouseSprite.sprite.animate();
+		}
+	}
+
+}
+
+
+function onMouseDown(e) {
+
+	gInput.mouseSprite.loc = new Point(gInput.mouseX,gInput.mouseY);
+	gInput.registerClick();
+
+}
+
+
+function onMouseMove(e) {
+
+		var rect = gGraphics.canvas.getBoundingClientRect();
+		gInput.mouseX = e.clientX - rect.left;
+		gInput.mouseY = e.clientY - rect.top;
 }
 
 function doKeyDown(e) {

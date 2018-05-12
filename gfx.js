@@ -113,6 +113,8 @@ class GameGraphics {
 
 	getScreenWidth() 						{return this._screen.width;}
 	getScreenHeight() 						{return this._screen.height;}
+
+	get canvas() {return this._canvas;}
 	
 	createFrame(name,x,y,width,height,zOrder) {
 
@@ -258,6 +260,7 @@ class Sprite {
 		if (this._curFrame > this.spriteSheet.actions[this._curAction].stop) {
 			if (!this._looping) {
 				this._curAction = this._defaultAction;
+				this._curFrame = this.spriteSheet.actions[this._curAction].start;
 			}
 			else {
 				this._curFrame = this.spriteSheet.actions[this._curAction].start;
@@ -297,7 +300,7 @@ class Tile {
 
 class TileSheet {
 
-	constructor(path,width,height,baseWidth,baseHeight) {
+	constructor(path,width,height,baseWidth,baseHeight,tiles) {
 		
 		//
 		// private class variables
@@ -308,6 +311,7 @@ class TileSheet {
 		this._baseWidth 		= baseWidth;
 		this._baseHeight		= baseHeight;
 		this._img 				= new Image();
+		this._tiles 			= tiles;
 	
 		//
 		// deferred image load
@@ -346,6 +350,10 @@ class TileSheet {
 	getTile(index) {
 		return new Tile(this.image,this.tileX(index),this.tileY(index),this.tileWidth,this.tileHeight);
 	}
+
+	getFlavorsOfType(type) {
+		return this._tiles[type];
+	}
 }
 
 
@@ -369,7 +377,7 @@ class Animation {
 
 class SpriteSheet extends TileSheet {
 
-	constructor (path,width,height,baseWidth,baseHeight,name,directions,actions) {
+	constructor (path,width,height,baseWidth,baseHeight,tiles,name,directions,actions) {
 		
 		super(path,width,height,baseWidth,baseHeight);
 
