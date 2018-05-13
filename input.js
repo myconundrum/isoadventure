@@ -28,10 +28,6 @@ class Input {
 	set mouseX(v) 	{this._mouseX = v;}
 	set mouseY(v) 	{this._mouseY = v;}
 
-
-
-	update() {}
-
 }
 
 

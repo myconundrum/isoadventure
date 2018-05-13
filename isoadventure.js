@@ -83,7 +83,6 @@ function deferredInit() {
 
 	window.requestAnimationFrame(update);
 
-
 }
 
 function init() {
@@ -100,7 +99,6 @@ function update() {
 
 	gTime.update();
 	gGraphics.update();
-	gInput.update();
 
 	window.requestAnimationFrame(update);
 }
