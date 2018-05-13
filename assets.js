@@ -81,6 +81,7 @@ class Tile {
 	get skewX() 			{return this._skewX;}
 }
 
+
 class Animation {
 
 	constructor(start,frames,duration) {

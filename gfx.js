@@ -95,23 +95,8 @@ class GameGraphics {
 
 		var dx = this.toScreenX(frame,x);
 		var dy = this.toScreenY(frame,y);
-		this._ctx.drawImage(tile.sheet.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width,tile.height);
-	}
-
-	drawTileEx(frame,x,y,tile,w,h) {
-
-		y = y - (h - tile.height);
-
-		var dx = this.toScreenX(frame,x);
-		var dy = this.toScreenY(frame,y);
-		this._ctx.drawImage(tile.image,tile.x,tile.y,w,h,dx,dy,w,h);
-	}
-
-	drawSprite(frame,x,y,sprite) {
-		var index = sprite.frame + 
-			(sprite.spriteSheet.directions.indexOf(sprite.direction) * sprite.spriteSheet.tilesPerLine);
-		
-		this.drawTile(frame,x,y,sprite.spriteSheet.getTile(index));
+		this._ctx.drawImage(tile.sheet.image,tile.x,tile.y,tile.width,tile.height,
+			dx,dy,tile.width*tile.sheet.globalScale,tile.height*tile.sheet.globalScale);
 	}
 
 	getScreenWidth() 						{return this._screen.width;}

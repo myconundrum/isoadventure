@@ -34,10 +34,10 @@ var gConfig = {
 			"path"			: "assets/goblin.png",
 			"tileWidth"		: 128,
 			"tileHeight"	: 128,
-			"globalScale"	: 2,
+			"globalScale"	: 1.7,
 			"animations"    : {
-				"stand" 	: {"start":0,"frames":4,"duration":200},
-				"jump"  	: {"start":4,"frames":8,"duration":400},
+				"stand" 	: {"start":0,"frames":4,"duration":800},
+				"jump"  	: {"start":4,"frames":8,"duration":1200},
 				"charge" 	: {"start":12,"frames":8,"duration":400},
 				"attack"  	: {"start":20,"frames":4,"duration":200},	
 				"throw" 	: {"start":24,"frames":6,"duration":300},
@@ -55,7 +55,7 @@ var gConfig = {
 			"tileWidth"		: 64,
 			"tileHeight"	: 64,
 			"animations"    : {
-				"click"		: {"start":0,"frames":4,"duration":200}
+				"click"		: {"start":0,"frames":4,"duration":600}
 			}			
 		
 		},

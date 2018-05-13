@@ -68,16 +68,18 @@ function deferredInit() {
 		return;
 	}
 
-	
+
 	console.log("Asset load completed.");
 
 	gDebug		= new Debug();
 	gInput 		= new Input();
 	gFrames 	= new GameFrames();
 	gMap 		= new Map();
-	//gPlayer 	= new Player();
+	gPlayer 	= new AnimatedGameObject("goblin")
 
-	//gPlayer.loc = new Point(300,420);
+	gPlayer.loc = new Point(300,420);
+	gPlayer.direction = "north";
+	gPlayer.playAnimation("jump",true);
 
 	window.requestAnimationFrame(update);
 
@@ -98,7 +100,6 @@ function update() {
 
 	gTime.update();
 	gGraphics.update();
-	//gPlayer.update();
 	gInput.update();
 
 	window.requestAnimationFrame(update);

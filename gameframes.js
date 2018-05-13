@@ -42,9 +42,8 @@ function gameFrameUpdate(frame) {
 		}
 	}
 
-	//gGraphics.drawSprite(frame,gPlayer.loc.x,gPlayer.loc.y,gPlayer.sprite);
-	//gGraphics.drawSprite(frame,gInput.mouseSprite.loc.x,gInput.mouseSprite.loc.y,gInput.mouseSprite.sprite);
-	
+	gGraphics.drawTile(frame,gPlayer.loc.x,gPlayer.loc.y,gPlayer.tile);
+	gGraphics.drawTile(frame,gInput.mouseSprite.loc.x,gInput.mouseSprite.loc.y,gInput.mouseSprite.tile);
 }
 
 function debugFrameUpdate(frame) {
@@ -60,11 +59,7 @@ function debugFrameUpdate(frame) {
 	gGraphics.text(frame,10,60,"mouse y: " + gInput.mouseY);
 	gGraphics.text(frame,10,80,"mouseClick x: " + gInput.mouseSprite.loc.x);
 	gGraphics.text(frame,10,100,"mouseClick y: " + gInput.mouseSprite.loc.y);
-	gGraphics.text(frame,10,120,"frame: " + gInput.mouseSprite.sprite.frame);
+	gGraphics.text(frame,10,120,"frame "+gPlayer._frame.toString());
 	gGraphics.text(frame,10,140,"elapsed time:" + gTime.sinceStart.toString());
-
-
-
-
 	
 }
