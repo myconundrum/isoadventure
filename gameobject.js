@@ -27,8 +27,8 @@ class Point {
 class GameObject {
 
 	constructor() {
-		this._loc = new Point(0,0);
-		this._tile = 0;
+		this._loc 	= new Point(0,0);
+		this._tile 	= null;
 	}
 
 	get loc() 		{return this._loc;}
@@ -36,6 +36,7 @@ class GameObject {
 
 	get tile() 		{return this._tile;}
 	set tile(v)		{this._tile = v;}
+	
 }
 
 

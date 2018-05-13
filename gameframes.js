@@ -26,31 +26,24 @@ class GameFrames {
 	
 }
 
-
-
-
 function gameFrameUpdate(frame) {
+	
+	var sx,sy,o;
 	
 	gGraphics.clear(frame);
 
-	var sx,sy;
-	var tiles = gAssets.tiles("dungeon");
-	var tile = 0;
-	var offset = 18;
-
 	for (var x = 0; x < gMap.data.length; x++) {
 		for (var y = 0; y < gMap.data[0].length; y++) {
-			sx = (x - y) * (tiles.baseWidth / 2)  + 400;
-			sy = (x + y) * (tiles.baseHeight / 2)   + 200;
-			if (gMap.data[x][y] > 47) {
-				sy += 12;
-			}
-			gGraphics.drawTile(frame,sx,sy,tiles.getTile(gMap.data[x][y]));
+			o = gMap.data[x][y];
+
+			sx = (x - y) * (o.tile.sheet.baseWidth / 2)  + 400;
+			sy = (x + y) * (o.tile.sheet.baseHeight / 2)   + 200;
+			gGraphics.drawTile(frame,sx,sy,o.tile);
 		}
 	}
 
-	gGraphics.drawSprite(frame,gPlayer.loc.x,gPlayer.loc.y,gPlayer.sprite);
-	gGraphics.drawSprite(frame,gInput.mouseSprite.loc.x,gInput.mouseSprite.loc.y,gInput.mouseSprite.sprite);
+	//gGraphics.drawSprite(frame,gPlayer.loc.x,gPlayer.loc.y,gPlayer.sprite);
+	//gGraphics.drawSprite(frame,gInput.mouseSprite.loc.x,gInput.mouseSprite.loc.y,gInput.mouseSprite.sprite);
 	
 }
 
@@ -68,6 +61,10 @@ function debugFrameUpdate(frame) {
 	gGraphics.text(frame,10,80,"mouseClick x: " + gInput.mouseSprite.loc.x);
 	gGraphics.text(frame,10,100,"mouseClick y: " + gInput.mouseSprite.loc.y);
 	gGraphics.text(frame,10,120,"frame: " + gInput.mouseSprite.sprite.frame);
+	gGraphics.text(frame,10,140,"elapsed time:" + gTime.sinceStart.toString());
+
+
+
 
 	
 }

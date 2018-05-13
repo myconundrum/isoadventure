@@ -13,12 +13,12 @@ class Input {
 		this._mouseX = 0;
 		this._mouseY = 0;
 
-		this._mouseSprite = new Actor();
-		this._mouseSprite.sprite = new Sprite(gAssets.sprites("runes"));
-		this._mouseSprite.sprite.direction = "none";
-		this._mouseSprite.sprite.action = "click"
-		this._mouseSprite.sprite.defaultAction = "click";
-		this._mouseSprite.looping = true;
+		//this._mouseSprite = new Actor();
+		//this._mouseSprite.sprite = new Sprite(gAssets.sprites("runes"));
+		//this._mouseSprite.sprite.direction = "none";
+		//this._mouseSprite.sprite.action = "click"
+		//this._mouseSprite.sprite.defaultAction = "click";
+		//this._mouseSprite.looping = true;
 
 
 	}

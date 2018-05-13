@@ -90,9 +90,12 @@ class GameGraphics {
 
 	drawTile(frame,x,y,tile) {
 
+		x += tile.skewX;
+		y += tile.skewY;
+
 		var dx = this.toScreenX(frame,x);
 		var dy = this.toScreenY(frame,y);
-		this._ctx.drawImage(tile.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width,tile.height);
+		this._ctx.drawImage(tile.sheet.image,tile.x,tile.y,tile.width,tile.height,dx,dy,tile.width,tile.height);
 	}
 
 	drawTileEx(frame,x,y,tile,w,h) {
@@ -146,7 +149,6 @@ function screenUpdate(frame) {
 	gGraphics.clear(frame);
 	gGraphics.text(frame,100,100,"Hello World!");
 }
-
 
 //
 // frames are subsections of the main canvas.
@@ -268,139 +270,5 @@ class Sprite {
 		}
 	}
 }
-
-class Tile {
-
-	constructor(image,x,y,width,height) {
-		this._x 			= x;
-		this._y 			= y;
-		this._img 			= image;
-		this._width 		= width;
-		this._height 		= height;
-	}
-
-	get x() 				{return this._x;}
-	get y() 				{return this._y;}
-	get width() 			{return this._width;}
-	get height() 			{return this._height;}
-	get image() 			{return this._img;}
-
-	set x(v) 				{this._x = v;}
-	set y(v) 				{this._y = v;}
-	set width(v) 			{this._width = v;}
-	set height(v) 			{this._height = v;}
-	set image(v) 			{this._img = v;}
-	
-}
-
-
-/*
-	Tilesheet class deals with PNGs of mulitple graphics.
-*/
-
-class TileSheet {
-
-	constructor(path,width,height,baseWidth,baseHeight,tiles) {
-		
-		//
-		// private class variables
-		//
-		this._path 				= path;
-		this._tileWidth 		= width;
-		this._tileHeight 		= height;
-		this._baseWidth 		= baseWidth;
-		this._baseHeight		= baseHeight;
-		this._img 				= new Image();
-		this._tiles 			= tiles;
-	
-		//
-		// deferred image load
-		//
-		var thisref = this;
-		this._img.onload = function() {
-
-			console.log("Loaded TileSheet from " + path + ".");
-			console.log("(w,h): (",thisref._img.naturalWidth.toString() + "," + thisref._img.naturalHeight.toString() +").");
-
-			thisref._tilesPerLine 	= thisref._img.naturalWidth/thisref._tileWidth;
-			thisref._numLines 		= thisref._img.naturalHeight/thisref._tileHeight;
-			thisref._maxIndex 		= thisref._tilesPerLine * thisref._numLines - 1;
-
-			console.log("   " + (thisref._tilesPerLine * thisref._numLines).toString() + " " + thisref._tileWidth.toString() + "X" + 
-				thisref._tileHeight.toString() + " tiles loaded.");
-
-		};
-
-		this._img.src = this._path;
-	}
-
-	get image() 		{return this._img;}
-	get tilesPerLine() 	{return this._tilesPerLine;}
-	get numLines() 		{return this._numLines;}
-	get maxIndex()		{return this._maxIndex;}
-	get tileWidth()		{return this._tileWidth;}				// the width in pixels of each tile in the sheet.
-	get tileHeight() 	{return this._tileHeight;}				// the height in pixels of each tile in the sheet.
-	get baseWidth()		{return this._baseWidth;}				// the width of a floor tile
-	get baseHeight() 	{return this._baseHeight;}				// the height of a floor tile.
-
-
-	tileX(index) {return parseInt(index%this._tilesPerLine) * this._tileWidth;}
-	tileY(index) {return parseInt(index/this._tilesPerLine) * this._tileHeight;}
-
-	getTile(index) {
-		return new Tile(this.image,this.tileX(index),this.tileY(index),this.tileWidth,this.tileHeight);
-	}
-
-	getFlavorsOfType(type) {
-		return this._tiles[type];
-	}
-}
-
-
-
-class Animation {
-
-	constructor (name,start,stop) {
-		this._name = name;
-		this._start = start;
-		this._stop = stop;
-	}
-
-	get name() 			{return this._name;}
-	get start() 		{return this._start;}
-	get stop() 			{return this._stop;}
-
-	set name(v) 		{this._name=v;}
-	set start(v) 		{this._start=v;}
-	set stop(v) 		{this._stop=v;}
-}
-
-class SpriteSheet extends TileSheet {
-
-	constructor (path,width,height,baseWidth,baseHeight,tiles,name,directions,actions) {
-		
-		super(path,width,height,baseWidth,baseHeight);
-
-		this._name 			= name;
-		this._actions 		= {};
-		this._directions 	= directions;
-
-		var start = 0;
-		var stop = 0;
-
-		for (var i = 0; i < actions.length; i++) {
-			stop = start + actions[i][1] - 1;
-			var anim = new Animation(actions[i][0],start,stop);
-			this._actions[anim.name] = anim; 
-			start = stop+1;	
-		}
-	}
-
-
-	get name() 			{return this._name;}
-	get directions() 	{return this._directions;}
-	get actions() 		{return this._actions;}
-}
-
 
 
