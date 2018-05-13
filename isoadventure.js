@@ -4,7 +4,6 @@
 var gDebug; 	// debug information
 var gGraphics; 	// graphics subsystem
 var gInput;		// input subsystem
-var gFrames;	// global game windows
 var gMap;		// global current map
 var gAssets;	// all A/V files for the game.
 var gPlayer;	// the player.
@@ -72,7 +71,6 @@ function deferredInit() {
 
 	gDebug		= new Debug();
 	gInput 		= new Input();
-	gFrames 	= new GameFrames();
 	gMap 		= new Map();
 	gPlayer 	= new Player ("goblin");
 
@@ -91,9 +89,10 @@ function init() {
 
 function update() {
 
+
 	gTime.update();
 	gPlayer.update();
-	gGraphics.update();
+	gMap.update();
 
 	window.requestAnimationFrame(update);
 }
