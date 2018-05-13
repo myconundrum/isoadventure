@@ -92,6 +92,8 @@ class GameGraphics {
 
 		x += tile.skewX;
 		y += tile.skewY;
+		x += tile.sheet.globalSkewX;
+		y += tile.sheet.globalSkewY;
 
 		var dx = this.toScreenX(frame,x);
 		var dy = this.toScreenY(frame,y);

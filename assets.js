@@ -15,6 +15,16 @@ class Assets {
 				t.globalScale = cur.globalScale;
 			}
 
+			if (cur.hasOwnProperty("globalSkewX")) {
+				t.globalSkewX = cur.globalSkewX;
+			}
+
+			if (cur.hasOwnProperty("globalSkewY")) {
+				t.globalSkewY = cur.globalSkewY;
+			}
+
+
+
 			if (cur.hasOwnProperty("baseWidth")) {
 				t.baseWidth = cur.baseWidth;
 			}
@@ -118,6 +128,8 @@ class TileSheet {
 		this._baseWidth 	= width;
 		this._baseHeight 	= height;
 		this._globalScale   = 1;
+		this._globalSkewX   = 0;
+		this._globalSkewY   = 0;
 		this._tiles 		= {};
 		this._animations 	= {};
 		this._directions    = [];
@@ -152,6 +164,8 @@ class TileSheet {
 	get baseWidth() 			{return this._baseWidth;}
 	get baseHeight() 			{return this._baseHeight;}
 	get globalScale() 			{return this._globalScale;}
+	get globalSkewX() 			{return this._globalSkewX;}
+	get globalSkewY() 			{return this._globalSkewY;}
 	get tiles()					{return this._tiles;}
 	get animations() 			{return this._animations;}
 	get directions() 			{return this._directions;}
@@ -169,6 +183,8 @@ class TileSheet {
 	set baseWidth(v) 			{this._baseWidth = v;}
 	set baseHeight(v) 			{this._baseHeight = v;}
 	set globalScale(v) 			{this._globalScale = v;}
+	set globalSkewX(v) 			{this._globalSkewX = v;}
+	set globalSkewY(v) 			{this._globalSkewY = v;}
 	set directions(v) 			{this._directions = v;}
 	set useDirections(v)   		{this._useDirections = v;}
 

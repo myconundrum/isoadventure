@@ -47,7 +47,7 @@ class Debug {
 		this._curTile = 0;
 		this._showTile = false;
 		this._debugMode = false;
-		this._tileSheet = gAssets.tileSheets["runes"];
+		this._tileSheet = gAssets.tileSheets["goblin"];
 	}
 
 	get curTile() 		{return this._curTile;}
@@ -68,21 +68,15 @@ function deferredInit() {
 		return;
 	}
 
-
 	console.log("Asset load completed.");
 
 	gDebug		= new Debug();
 	gInput 		= new Input();
 	gFrames 	= new GameFrames();
 	gMap 		= new Map();
-	gPlayer 	= new AnimatedGameObject("goblin")
-
-	gPlayer.loc = new Point(300,420);
-	gPlayer.direction = "north";
-	gPlayer.playAnimation("jump",true);
+	gPlayer 	= new Player ("goblin");
 
 	window.requestAnimationFrame(update);
-
 }
 
 function init() {
@@ -98,6 +92,7 @@ function init() {
 function update() {
 
 	gTime.update();
+	gPlayer.update();
 	gGraphics.update();
 
 	window.requestAnimationFrame(update);

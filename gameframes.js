@@ -2,8 +2,6 @@
 
 var DEBUGFRAMEWIDTH = 200
 
-var testSprite;
-
 class GameFrames {
 
 	constructor() {	
@@ -43,7 +41,18 @@ function gameFrameUpdate(frame) {
 	}
 
 	gGraphics.drawTile(frame,gPlayer.loc.x,gPlayer.loc.y,gPlayer.tile);
-	gGraphics.drawTile(frame,gInput.mouseSprite.loc.x,gInput.mouseSprite.loc.y,gInput.mouseSprite.tile);
+	
+	if (gInput.targetEnabled) {
+		gGraphics.drawTile(frame,gInput.targetX,gInput.targetY,gInput.target.tile);
+	}
+	gGraphics.drawTile(frame,gInput.cursor.loc.x,gInput.cursor.loc.y,gInput.cursor.tile);
+
+
+	gGraphics.text(frame,10,20,"cursor:" + gInput.cursorX + "," + gInput.cursorY);
+	gGraphics.text(frame,10,40,"target: " + gInput.targetX +","+gInput.targetY);
+	gGraphics.text(frame,10,60,"dest: " + gPlayer.destination.x +","+gPlayer.destination.y);
+	gGraphics.text(frame,10,80,"loc:" + gPlayer.loc.x+","+gPlayer.loc.y);
+
 }
 
 function debugFrameUpdate(frame) {
@@ -52,13 +61,11 @@ function debugFrameUpdate(frame) {
 
 	if (gDebug.showTile) {
 		gGraphics.text(frame,10,20,"Tile Index: " + gDebug.curTile.toString());
-		gGraphics.drawTile(frame,0,300,gDebug.tileSheet.getTile(gDebug.curTile));
+		gGraphics.drawTile(frame,0,300,gDebug.tileSheet.getTileByIndex(gDebug.curTile));
 	}
 
-	gGraphics.text(frame,10,40,"mouse x: " + gInput.mouseX);
-	gGraphics.text(frame,10,60,"mouse y: " + gInput.mouseY);
-	gGraphics.text(frame,10,80,"mouseClick x: " + gInput.mouseSprite.loc.x);
-	gGraphics.text(frame,10,100,"mouseClick y: " + gInput.mouseSprite.loc.y);
+	gGraphics.text(frame,10,40,"mouse x: " + gInput.cursorX);
+	gGraphics.text(frame,10,60,"mouse y: " + gInput.cursorY);
 	gGraphics.text(frame,10,120,"frame "+gPlayer._frame.toString());
 	gGraphics.text(frame,10,140,"elapsed time:" + gTime.sinceStart.toString());
 	

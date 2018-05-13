@@ -11,6 +11,8 @@
 	@baseWidth: 		width of a "floor tile" in background tilesheets 
 	@baseHeight: 		height of a "floor tile" in background tilesheets
 	@globalScale:    	scale factor for tiles in this tilesheet
+	@globalSkewX:       skew x for all tiles in this tilesheet
+	@globalSkewY:       skew y for all tiles in this tilesheet 
 	
 	@animations:		dictionary of animations within the tilesheet in the format: (key names are animation names)
 		@start:    		start index of the animation
@@ -34,17 +36,17 @@ var gConfig = {
 			"path"			: "assets/goblin.png",
 			"tileWidth"		: 128,
 			"tileHeight"	: 128,
-			"globalScale"	: 1.7,
+			"globalScale"	: 1.75,
 			"animations"    : {
 				"stand" 	: {"start":0,"frames":4,"duration":800},
-				"jump"  	: {"start":4,"frames":8,"duration":1200},
-				"charge" 	: {"start":12,"frames":8,"duration":400},
-				"attack"  	: {"start":20,"frames":4,"duration":200},	
-				"throw" 	: {"start":24,"frames":6,"duration":300},
-				"block"  	: {"start":30,"frames":2,"duration":50},
-				"hit" 		: {"start":32,"frames":2,"duration":50},
-				"die"  		: {"start":34,"frames":6,"duration":300},
-				"crit die" 	: {"start":40,"frames":8,"duration":400}
+				"run"		: {"start":12,"frames":4,"duration":533},
+				"swing"		: {"start":20,"frames":3,"duration":300},
+				"cast"		: {"start":28,"frames":4,"duration":533},
+				"shoot"		: {"start":24,"frames":4,"duration":400},
+				"block"		: {"start":32,"frames":2,"duration":200},
+				"hit"		: {"start":34,"frames":2,"duration":133},
+				"die"		: {"start":34,"frames":6,"duration":400},
+				"crit die"	: {"start":40,"frames":8,"duration":800},
 			},
 			"directions" : ["west","northwest","north","northeast","east","southeast","south","southwest"]
 		},
@@ -54,10 +56,18 @@ var gConfig = {
 			"path"			: "assets/runes.png",
 			"tileWidth"		: 64,
 			"tileHeight"	: 64,
+			"globalSkewX"	: -30,
+			"globalSkewY"	: -30,
 			"animations"    : {
 				"click"		: {"start":0,"frames":4,"duration":600}
 			}			
 		
+		},
+		{
+			"name"			: "cursor gauntlet",
+			"path"			: "assets/cursorGauntlet_grey.png",
+			"tileWidth"		: 30,
+			"tileHeight"	: 30
 		},
 		{
 			"name"			: "cave",

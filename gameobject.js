@@ -122,5 +122,5 @@ function getNamedDirection(dx,dy) {
 		eastwest = "east"
 	}
 
-	return northsout + eastwest;
+	return northsouth + eastwest;
 }
