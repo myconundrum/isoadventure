@@ -1,9 +1,5 @@
 
 
-var DEFAULTSPRITE = "goblin"
-var DEFAULTTILE = "chest closed"
-
-
 class Point {
 
 	constructor(x,y) {
@@ -23,7 +19,6 @@ class Point {
 	toCartesian() {return new Point ((2*this._y + this.x)/2,(2*this._y - this.x)/2);}
 }
 
-
 class GameObject {
 
 	constructor(sheet) {
@@ -41,6 +36,19 @@ class GameObject {
 	get tile() 		{return this._tile;}
 	set tile(v)		{this._tile = v;}
 
+	draw() {
+
+	}
+}
+
+
+class EmptyGameObject extends GameObject {
+
+	constructor(sheet) {
+		super(sheet);
+	}
+
+	draw() {};
 }
 
 class AnimatedGameObject extends GameObject {
