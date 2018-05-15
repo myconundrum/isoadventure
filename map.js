@@ -47,8 +47,6 @@ class Map {
 				o = new GameObject(this._tileSheetName);
 
 				switch(mapInitData[x][y]) {
-				case 0: o = new EmptyGameObject(this._tileSheetName);
-					break;
 				case 2:
 					o.tile = (randInt(0,10)>= 1) ? this._tileSheet.getTileByName("floor",true) : this._tileSheet.getTileByName("floor ambience",true)
 				break;
@@ -100,10 +98,10 @@ class Map {
 	get data() {return this._data;}
 
 	mapToScreenX(x,y) {return (x-y) * (this.cellWidth/2) + this._viewOffset.x;}
-
 	mapToScreenY(x,y) {return (x+y) * (this.cellHeight/2) + this._viewOffset.y;}
 
 	screenToMapX(x,y) {
+
 		var dx = x - this._viewOffset.x;
 		var dy = y - this._viewOffset.y;
 	
@@ -139,9 +137,10 @@ class Map {
 		
 
 		gGraphics.text(10,20,"cursor: " + gInput.cursor.pos.toString());
-		gGraphics.text(10,40,"target: " + gInput.target.pos.toString());
-		gGraphics.text(10,60,"dest: " + gPlayer.dest.toString());
-		gGraphics.text(10,80,"loc: " + gPlayer.pos.toString());
+		gGraphics.text(10,40,"cursor as map: " + new Point(gInput.cursor.pos).toMap().toString());
+		gGraphics.text(10,60,"target: " + gInput.target.pos.toString());
+		gGraphics.text(10,80,"dest: " + gPlayer.dest.toString());
+		gGraphics.text(10,100,"loc: " + gPlayer.pos.toString());
 	}
 }
 

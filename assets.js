@@ -23,8 +23,6 @@ class Assets {
 				t.globalSkewY = cur.globalSkewY;
 			}
 
-
-
 			if (cur.hasOwnProperty("baseWidth")) {
 				t.baseWidth = cur.baseWidth;
 			}
