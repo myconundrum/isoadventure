@@ -80,7 +80,9 @@ class Map {
 					o.tile = this._tileSheet.getTileByName("n corner",false);
 				break;
 				}
+				o.pos.set(x,y);
 				this._data[x][y] = o;
+
 			}
 		}
 	}
@@ -123,29 +125,18 @@ class Map {
 
 		for (var x = 0; x < this._data.length; x++) {
 			for (var y = 0; y < this._data[0].length; y++) {
-				o = this._data[x][y];
-
-				sx = this.mapToScreenX(x,y);
-				sy = this.mapToScreenY(x,y);
-								
-
-				if (o.tile != null) {
-					gGraphics.drawTile(sx,sy,o.tile);
-				}
+				this._data[x][y].draw();
 			}
 		}
 
 		if (gInput.targetEnabled) {
-			gGraphics.drawTile(
-				this.mapToScreenX(gInput.target.pos.x,gInput.target.pos.y),
-				this.mapToScreenY(gInput.target.pos.x,gInput.target.pos.y),
-				gInput.target.tile);
+			gInput.target.draw();
+			
 		}
-		gGraphics.drawTile(this.mapToScreenX(gPlayer.pos.x,gPlayer.pos.y),this.mapToScreenY(gPlayer.pos.x,gPlayer.pos.y),gPlayer.tile);
+
+		gPlayer.draw();
+		gInput.cursor.drawNoConversion();
 		
-		
-		
-		gGraphics.drawTile(gInput.cursor.pos.x,gInput.cursor.pos.y,gInput.cursor.tile);
 
 		gGraphics.text(10,20,"cursor: " + gInput.cursor.pos.toString());
 		gGraphics.text(10,40,"target: " + gInput.target.pos.toString());

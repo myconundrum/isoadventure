@@ -45,15 +45,16 @@ class Player extends AnimatedGameObject {
 			this.direction = getNamedDirection(dx,dy);
 
 			if (dx > 0) {
-				this.pos.x = this.pos.x + toMove;
+				this.pos.x = (Math.abs(this.pos.x - this.dest.x)) < toMove ? this.dest.x : (this.pos.x + toMove);
 			} else if (dx < 0) {
-				this.pos.x = this.pos.x - toMove;
+				this.pos.x = (Math.abs(this.pos.x - this.dest.x)) < toMove ? this.dest.x : (this.pos.x - toMove);
 			}
 
+
 			if (dy > 0) {
-				this.pos.y = this.pos.y + toMove;
+				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y + toMove);
 			} else if (dy < 0) {
-				this.pos.y = this.pos.y - toMove;
+				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y + toMove);
 			}
 
 			if (this.dest.equal(this.pos)) {

@@ -77,7 +77,6 @@ function onMouseMove(e) {
 		var diffY = gInput.mouseDragPos.y-y;
 		
 		gMap.viewOffset.sub(diffX,diffY);
-
 		gInput.mouseDragPos.set(x,y);
 	}
 

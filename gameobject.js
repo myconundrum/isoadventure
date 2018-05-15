@@ -2,19 +2,30 @@
 
 class Point {
 
-	constructor(x,y) {
-		this.set(x,y);	
-	}
+	constructor(x,y) 	{this.set(x,y);}
+	clone() 			{return new Point(this._x,this._y);}
+	get x() 			{return this._x;}
+	get y() 			{return this._y;}
+	set x(v) 			{this._x = v;}
+	set y(v) 			{this._y = v;}
 
-	equal(x,y) {
+	//
+	// return converted new points.
+	//
+	toScreen() 	{return new Point(gMap.mapToScreenX(this._x,this._y),gMap.mapToScreenY(this._x,this._y));}
+	toMap() 	{return new Point(gMap.screenToMapX(this._x,this._y),gMap.screenToMapY(this._x,this._y));}
+	toString() 	{return "("+this._x.toFixed(3)+","+this._y.toFixed(3)+")";}
+
+	equal(x,y) {	
+
 		if (x instanceof Point) {
-			return x.x == this.x && x.y == this.y;
+			return x._x == this._x && x._y == this._y;
 		}
-
-		return this.x == x && this.y == y;
+		return this._x == x && this._y == y;
 	}
 
 	set (x,y) {
+
 		if (x instanceof Point) {
 			this._x = x.x;
 			this._y = x.y;
@@ -25,48 +36,38 @@ class Point {
 		}
 	}
 
-	get x() 		{return this._x;}
-	get y() 		{return this._y;}
-	set x(v) 		{this._x = v;}
-	set y(v) 		{this._y = v;}
-
 	distance(x,y) {
 
 		if (x instanceof Point) {
-			return Math.sqrt((this.x-x.x)*(this.x-x.x) + (this.y - x.y)*(this.y-x.y));	
+			return Math.sqrt((this._x-x._x)*(this._x-x._x) + (this._y - x._y)*(this._y-x._y));	
 		}
 
-		return  Math.sqrt((this.x-x)*(this.x-x) + (this.y - y)*(this.y-y));	
+		return  Math.sqrt((this._x-x)*(this._x-x) + (this._y - y)*(this._y-y));	
 	}
+
 	add(x,y) {
 
 		if (x instanceof Point) {
-			this.x += x.x ;
-			this.y += x.y;
+			this._x += x._x ;
+			this._y += x._y;
 		}
 		else {
-			this.x += x;
-			this.y += y;
+			this._x += x;
+			this._y += y;
 		}
 	}
+
 	sub(x,y) {
 
 		if (x instanceof Point) {
-			this.x -= x.x ;
-			this.y -= x.y;
+			this._x -= x._x ;
+			this._y -= x._y;
 		}
 		else {
-			this.x -= x;
-			this.y -= y;
+			this._x -= x;
+			this._y -= y;
 		}
 	}
-
-	//
-	// return converted new points.
-	//
-	toScreen() {return new Point(gMap.mapToScreenX(this.x,this.y),gMap.mapToScreenY(this.x,this.y));}
-	toMap() {return new Point(gMap.screenToMapX(this.x,this.y),gMap.screenToMapY(this.x,this.y));}
-	toString() {return "("+this.x+","+this.y+")";}
 }
 
 class GameObject {
@@ -88,8 +89,21 @@ class GameObject {
 
 	draw() {
 
+		var p = this.pos.toScreen();
+
+		if (this.tile != null) {
+			gGraphics.drawTile(p.x,p.y,this.tile);
+		}
+	}
+
+	//
+	// use if coordinates are already in screenspace.
+	//
+	drawNoConversion() {
+		gGraphics.drawTile(this.pos.x,this.pos.y,this.tile);
 	}
 }
+
 
 
 class EmptyGameObject extends GameObject {
