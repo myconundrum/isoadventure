@@ -33,8 +33,7 @@ class Map {
 		this._tileSheet 	= gAssets.tileSheets[this._tileSheetName];
 		this._width 		= mapInitData.length;
 		this._height 		= mapInitData[0].length;
-		this._viewOffsetX   = 800;
-		this._viewOffsetY   = -100;
+		this._viewOffset   	= new Point(800,-100);
 
 
 		var flavors;
@@ -84,7 +83,6 @@ class Map {
 				this._data[x][y] = o;
 			}
 		}
-		console.log(this._data);
 	}
 
 	get tileSheet() 			{return this._tileSheet};				// tilesheet associated with the background tiles
@@ -93,13 +91,29 @@ class Map {
 	get height() 				{return this._height;}					// number of cells high
 	get cellWidth()				{return this._tileSheet.baseWidth;}		// cell width in pixels
 	get cellHeight()			{return this._tileSheet.baseHeight;}    // cell height in pixels
-	get viewOffsetX()  			{return this._viewOffsetX;}
-	get viewOffsetY() 			{return this._viewOffsetY;}
+	get viewOffset()  			{return this._viewOffset;}
 
-	set viewOffsetX(v)			{this._viewOffsetX = v;}
-	set viewOffsetY(v)			{this._viewOffsetY = v;}
-
+	set viewOffset(v)			{this._viewOffset = v;}
+	
 	get data() {return this._data;}
+
+	mapToScreenX(x,y) {return (x-y) * (this.cellWidth/2) + this._viewOffset.x;}
+
+	mapToScreenY(x,y) {return (x+y) * (this.cellHeight/2) + this._viewOffset.y;}
+
+	screenToMapX(x,y) {
+		var dx = x - this._viewOffset.x;
+		var dy = y - this._viewOffset.y;
+	
+		return dx / this.cellWidth + dy / this.cellHeight;
+	}
+
+	screenToMapY(x,y) {
+		var dx = x - this._viewOffset.x;
+		var dy = y - this._viewOffset.y;
+	
+		return dy / this.cellHeight - dx/this.cellWidth;  
+	}
 
 	update() {
 
@@ -111,28 +125,32 @@ class Map {
 			for (var y = 0; y < this._data[0].length; y++) {
 				o = this._data[x][y];
 
-				sx = (x - y) * (this.cellWidth / 2) 	+ this._viewOffsetX;
-				sy = (x + y) * (this.cellHeight / 2) 	+ this._viewOffsetY;
+				sx = this.mapToScreenX(x,y);
+				sy = this.mapToScreenY(x,y);
+								
 
-			if (o.tile != null) {
+				if (o.tile != null) {
 					gGraphics.drawTile(sx,sy,o.tile);
 				}
 			}
 		}
 
 		if (gInput.targetEnabled) {
-			gGraphics.drawTile(gInput.targetX,gInput.targetY,gInput.target.tile);
+			gGraphics.drawTile(
+				this.mapToScreenX(gInput.target.pos.x,gInput.target.pos.y),
+				this.mapToScreenY(gInput.target.pos.x,gInput.target.pos.y),
+				gInput.target.tile);
 		}
-		gGraphics.drawTile(gPlayer.loc.x,gPlayer.loc.y,gPlayer.tile);
+		gGraphics.drawTile(this.mapToScreenX(gPlayer.pos.x,gPlayer.pos.y),this.mapToScreenY(gPlayer.pos.x,gPlayer.pos.y),gPlayer.tile);
 		
 		
 		
-		gGraphics.drawTile(gInput.cursor.loc.x,gInput.cursor.loc.y,gInput.cursor.tile);
+		gGraphics.drawTile(gInput.cursor.pos.x,gInput.cursor.pos.y,gInput.cursor.tile);
 
-		gGraphics.text(10,20,"cursor:" + gInput.cursorX + "," + gInput.cursorY);
-		gGraphics.text(10,40,"target: " + gInput.targetX +","+gInput.targetY);
-		gGraphics.text(10,60,"dest: " + gPlayer.destination.x +","+gPlayer.destination.y);
-		gGraphics.text(10,80,"loc:" + gPlayer.loc.x+","+gPlayer.loc.y);
+		gGraphics.text(10,20,"cursor: " + gInput.cursor.pos.toString());
+		gGraphics.text(10,40,"target: " + gInput.target.pos.toString());
+		gGraphics.text(10,60,"dest: " + gPlayer.dest.toString());
+		gGraphics.text(10,80,"loc: " + gPlayer.pos.toString());
 	}
 }
 

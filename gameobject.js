@@ -3,8 +3,26 @@
 class Point {
 
 	constructor(x,y) {
-		this._x = x;
-		this._y = y;
+		this.set(x,y);	
+	}
+
+	equal(x,y) {
+		if (x instanceof Point) {
+			return x.x == this.x && x.y == this.y;
+		}
+
+		return this.x == x && this.y == y;
+	}
+
+	set (x,y) {
+		if (x instanceof Point) {
+			this._x = x.x;
+			this._y = x.y;
+
+		} else {
+			this._x = x;
+			this._y = y;
+		}
 	}
 
 	get x() 		{return this._x;}
@@ -12,17 +30,49 @@ class Point {
 	set x(v) 		{this._x = v;}
 	set y(v) 		{this._y = v;}
 
-	// returns a new point that is the isometric projection of the cartesian point.
-	toIsometric() {return new Point(this._x - this._y,(this._x + this._y)/2);}
+	distance(x,y) {
 
-	// returns a new point that is the cartesian projection of an isometric point.
-	toCartesian() {return new Point ((2*this._y + this.x)/2,(2*this._y - this.x)/2);}
+		if (x instanceof Point) {
+			return Math.sqrt((this.x-x.x)*(this.x-x.x) + (this.y - x.y)*(this.y-x.y));	
+		}
+
+		return  Math.sqrt((this.x-x)*(this.x-x) + (this.y - y)*(this.y-y));	
+	}
+	add(x,y) {
+
+		if (x instanceof Point) {
+			this.x += x.x ;
+			this.y += x.y;
+		}
+		else {
+			this.x += x;
+			this.y += y;
+		}
+	}
+	sub(x,y) {
+
+		if (x instanceof Point) {
+			this.x -= x.x ;
+			this.y -= x.y;
+		}
+		else {
+			this.x -= x;
+			this.y -= y;
+		}
+	}
+
+	//
+	// return converted new points.
+	//
+	toScreen() {return new Point(gMap.mapToScreenX(this.x,this.y),gMap.mapToScreenY(this.x,this.y));}
+	toMap() {return new Point(gMap.screenToMapX(this.x,this.y),gMap.screenToMapY(this.x,this.y));}
+	toString() {return "("+this.x+","+this.y+")";}
 }
 
 class GameObject {
 
 	constructor(sheet) {
-		this._loc 	= new Point(0,0);
+		this.pos = new Point(0,0);
 		this._tile 	= null;
 		this._sheet = gAssets.tileSheets[sheet];
 	}
@@ -30,11 +80,11 @@ class GameObject {
 	get sheet() 	{return this._sheet;}
 	set sheet(v) 	{this._sheet = v;}
 
-	get loc() 		{return this._loc;}
-	set loc(v) 		{this._loc = v;}
-
 	get tile() 		{return this._tile;}
 	set tile(v)		{this._tile = v;}
+
+	get pos() 		{return this._pos;}
+	set pos(v)		{this._pos = v;}
 
 	draw() {
 
