@@ -12,12 +12,12 @@ class Player extends AnimatedGameObject {
 		this.playAnimation("stand",true);
 
 
-		this._dest 			= new Point(17,13);
+		this._dest 			= new Point(0,25);
 		this._moveDist 		= 0;
 		this._moveLastTime 	= 0;
 		this._moveSpeed 	= 1000;
 
-		this.pos.set(17,13);
+		this.pos = this._dest.clone();
 	}
 
 	get dest() 		{return this._dest;}
@@ -54,11 +54,16 @@ class Player extends AnimatedGameObject {
 			if (dy > 0) {
 				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y + toMove);
 			} else if (dy < 0) {
-				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y + toMove);
+				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y - toMove);
 			}
 
 			if (this.dest.equal(this.pos)) {
 				this.playAnimation("stand",true);
+
+				//
+				// clear target if we were moving to a target.
+				//
+				//gInput.targetEnabled = false;
 			}
 
 			this._moveLastTime = gTime.now;

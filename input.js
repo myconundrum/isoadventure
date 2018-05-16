@@ -8,6 +8,7 @@ class Input {
 		gGraphics.canvas.addEventListener('mousemove',onMouseMove);
 		gGraphics.canvas.addEventListener('mousedown',onMouseDown);
 		gGraphics.canvas.addEventListener('mouseup',onMouseUp);
+		gGraphics.canvas.addEventListener('mousewheel',onMouseWheel,{passive:true});
 
 		this._cursor = new GameObject("cursor gauntlet");
 		this._cursor.tile = this._cursor.sheet.getTileByIndex(0);
@@ -35,37 +36,43 @@ class Input {
 	
 }
 
+var MOUSESCROLLSPEED=20
+function onMouseWheel(e) {
 
-function onMouseDown(e) {
-	gInput.mouseDown = true;
-}
+  	var delta = e.wheelDelta ? e.wheelDelta/40 : e.detail ? -e.detail/3 : 0;
+  	gMap.viewScale += delta/MOUSESCROLLSPEED;
+};
+
+function onMouseDown(e) {gInput.mouseDown = true;}
 
 function onMouseUp(e) {
 
-	gInput.mouseDown = false;
-	
 	if (!gInput.mouseDrag) {
+		
+		// get the location of the cursor in world coordinates, and set it as the player destination.
+		gInput.target.pos = gGraphics.untransformPoint(gInput.cursor.pos).toMap();
+		gPlayer.dest = gInput.target.pos.clone();
 
-		gInput.target.pos = gInput.cursor.pos.toMap();
+		// enable the display of the target animation.
 		gInput.targetEnabled = true;
-		var x = gInput.cursor.pos.x - gPlayer.tile.width * gPlayer.sheet.globalScale / 2;
-		var y = gInput.cursor.pos.y - gPlayer.tile.height * gPlayer.sheet.globalScale/ 2 - 50;
-		var p = new Point(x,y);
-		gPlayer.dest = p.toMap();
+		
 		gPlayer.moveDist = gPlayer.dest.distance(gPlayer.pos);
 		gPlayer.moveLastTime = gTime.now;
 
+		// the player will start walking towards the destination.
 		gPlayer.playAnimation("run",true);
 	}
 
+	// clear mouse button down and mouse dragging.
+	gInput.mouseDown = false;
 	gInput.mouseDrag = false;
 }
 
 function onMouseMove(e) {
 
 	var rect = gGraphics.canvas.getBoundingClientRect();
-	var x = e.clientX - rect.left;
-	var y = e.clientY - rect.top;
+	var x = (e.clientX - rect.left);
+	var y = (e.clientY - rect.top);
 
 	if (gInput.mouseDown && !gInput.mouseDrag) {
 		gInput.mouseDrag = true;

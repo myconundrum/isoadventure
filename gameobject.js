@@ -19,7 +19,6 @@ class GameObject {
 	set pos(v)		{this._pos = v;}
 
 	draw() {
-
 		var p = this.pos.toScreen();
 
 		if (this.tile != null) {

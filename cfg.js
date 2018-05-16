@@ -36,7 +36,7 @@ var gConfig = {
 			"path"			: "assets/goblin.png",
 			"tileWidth"		: 128,
 			"tileHeight"	: 128,
-			"globalScale"	: 1.75,
+			"globalScale"	: 1,
 			"animations"    : {
 				"stand" 	: {"start":0,"frames":4,"duration":800},
 				"run"		: {"start":12,"frames":4,"duration":533},

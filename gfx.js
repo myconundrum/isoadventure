@@ -2,6 +2,8 @@
 //
 // graphics subsytem.
 //
+
+
 class GameGraphics {
 
 	constructor() {
@@ -10,6 +12,12 @@ class GameGraphics {
 		this._ctx   	= this._canvas.getContext('2d');
 		this._bgColor   = "gray";
 		this._fontColor = "white"; 
+
+
+		this._transform = [1,0,0,1,0,0];
+		this._inverseTransform = [1,0,0,1];
+
+
 	}
 
 	get canvas() 		{return this._canvas;}
@@ -27,6 +35,7 @@ class GameGraphics {
 	clear() {
 		this._ctx.fillStyle = this._bgColor;
 		this._ctx.fillRect(0,0,this._canvas.width,this._canvas.height);
+		this.resetTransform();
 	}
 
 	text(x,y,str) {
@@ -35,21 +44,63 @@ class GameGraphics {
 		this._ctx.fillStyle = this._bgColor;
 	}
 
-	drawObject(object) {
+	resetTransform() {
+		
+		this._ctx.resetTransform();
+	}
 
-		var dx = this.toScreenX(frame,object.loc.x + object.tile.skewX + object.sheet.globalSkewX);
-		var dy = this.toScreenY(frame,object.loc.y + object.tile.skewY + object.sheet.globalSkewY);
+	useTransform() {
+		
+	}
 
-		this._ctx.drawImage(
-			object.sheet.image,
-			object.loc.x,
-			object.loc.y,
-			object.tile.width,
-			object.tile.height,
-			dx,dy,
-			object.tile.width*object.sheet.globalScale,
-			object.tile.height*object.sheet.globalScale
-			);
+	setTransform(offsetX,offsetY,scale) {
+
+		var m; 				// just to make it easier to type and read
+		var im; 			// just to make it easier to type and read
+		var cross;
+
+		this.resetTransform();
+
+		this._transform = [1,0,0,1,0,0];
+		this._inverseTransform = [1,0,0,1];
+
+		m = this._transform;
+		im = this._inverseTransform;
+
+		// create the rotation and scale parts of the matrix (we assume zero rotation)
+		m[3] =   m[0] = Math.cos(0) * scale;
+		m[2] = -(m[1] = Math.sin(0) * scale);
+
+		// add the translation
+		m[4] = offsetX;
+		m[5] = offsetY;
+
+		// calculate the inverse transformation
+
+		// first get the cross product of x axis and y axis
+		cross = m[0] * m[3] - m[1] * m[2];
+
+		// now get the inverted axis
+		im[0] =  m[3] / cross;
+		im[1] = -m[1] / cross;
+		im[2] = -m[2] / cross;
+		im[3] =  m[0] / cross;
+
+		this._ctx.setTransform(
+			this._transform[0],
+			this._transform[1],
+			this._transform[2],
+			this._transform[3],
+			this._transform[4],
+			this._transform[5]);
+	}
+
+	untransformPoint(p) {
+		var rp = new Point(p.x - this._transform[4],p.y - this._transform[5]);
+		rp.x = rp.x * this._inverseTransform[0] + rp.y * this._inverseTransform[2];
+		rp.y = rp.x * this._inverseTransform[1] + rp.y * this._inverseTransform[3];
+
+		return rp;
 	}
 
 	drawTile(x,y,tile) {
@@ -59,7 +110,9 @@ class GameGraphics {
 		x += tile.sheet.globalSkewX;
 		y += tile.sheet.globalSkewY;
 
-		this._ctx.drawImage(tile.sheet.image,tile.x,tile.y,tile.width,tile.height,
+		this._ctx.drawImage(
+			tile.sheet.image,
+			tile.x,tile.y,tile.width,tile.height,
 			x,y,tile.width*tile.sheet.globalScale,tile.height*tile.sheet.globalScale);
 	}
 }
