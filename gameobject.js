@@ -26,9 +26,7 @@ class GameObject {
 		}
 	}
 
-	//
 	// use if coordinates are already in screenspace.
-	//
 	drawNoConversion() {
 		gGraphics.drawTile(this.pos.x,this.pos.y,this.tile);
 	}

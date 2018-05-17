@@ -45,12 +45,21 @@ function onMouseWheel(e) {
 
 function onMouseDown(e) {gInput.mouseDown = true;}
 
+function centerTileOnPos(tile,pos) {
+	
+	var p = new Point(pos);
+	if (tile) {
+		p.sub(tile.width/2,tile.height/2);
+	}
+	return p;
+}
+
 function onMouseUp(e) {
 
 	if (!gInput.mouseDrag) {
 		
 		// get the location of the cursor in world coordinates, and set it as the player destination.
-		gInput.target.pos = gGraphics.untransformPoint(gInput.cursor.pos).toMap();
+		gInput.target.pos = centerTileOnPos(gInput.target.tile,gGraphics.untransformPoint(gInput.cursor.pos)).toMap();
 		gPlayer.dest = gInput.target.pos.clone();
 
 		// enable the display of the target animation.
@@ -74,19 +83,22 @@ function onMouseMove(e) {
 	var x = (e.clientX - rect.left);
 	var y = (e.clientY - rect.top);
 
+
 	if (gInput.mouseDown && !gInput.mouseDrag) {
+		// start a mouse drag, button is down and we are moving the mouse. 
 		gInput.mouseDrag = true;
 		gInput.mouseDragPos.set(x,y);
 
 	} else if (gInput.mouseDrag) {
 
+		// if we are currently doing a mouse drag, update our viewoffset for panning.
 		var diffX = gInput.mouseDragPos.x-x;
 		var diffY = gInput.mouseDragPos.y-y;
-		
 		gMap.viewOffset.sub(diffX,diffY);
 		gInput.mouseDragPos.set(x,y);
 	}
 
+	// update cursor position.
 	gInput.cursor.pos.set(x,y);
 }
 

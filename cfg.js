@@ -36,7 +36,9 @@ var gConfig = {
 			"path"			: "assets/goblin.png",
 			"tileWidth"		: 128,
 			"tileHeight"	: 128,
-			"globalScale"	: 1,
+			"globalScale"	: 1.75,
+			"globalSkewX"	: -80,
+			"globalSkewY"	: -140,
 			"animations"    : {
 				"stand" 	: {"start":0,"frames":4,"duration":800},
 				"run"		: {"start":12,"frames":4,"duration":533},
@@ -56,8 +58,8 @@ var gConfig = {
 			"path"			: "assets/runes.png",
 			"tileWidth"		: 64,
 			"tileHeight"	: 64,
-			"globalSkewX"	: -30,
-			"globalSkewY"	: -30,
+			"NOglobalSkewX"	: -30,
+			"NOglobalSkewY"	: -30,
 			"animations"    : {
 				"click"		: {"start":0,"frames":4,"duration":600}
 			}			

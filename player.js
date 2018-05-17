@@ -12,7 +12,7 @@ class Player extends AnimatedGameObject {
 		this.playAnimation("stand",true);
 
 
-		this._dest 			= new Point(0,25);
+		this._dest 			= new Point(5,17);
 		this._moveDist 		= 0;
 		this._moveLastTime 	= 0;
 		this._moveSpeed 	= 1000;
@@ -38,35 +38,33 @@ class Player extends AnimatedGameObject {
 		}
 		else {
 
-			var dx = this.dest.x - this.pos.x;
-			var dy = this.dest.y - this.pos.y;
+			var move = gTime.deltaTime / this._moveSpeed;
+			var dx = this.dest.x - this.pos.x; 
+			var dy = this.dest.y - this.pos.y; 
 
-			var toMove = gTime.sinceLast / this._moveSpeed;
+			// set animation direction.
 			this.direction = getNamedDirection(dx,dy);
 
+			
 			if (dx > 0) {
-				this.pos.x = (Math.abs(this.pos.x - this.dest.x)) < toMove ? this.dest.x : (this.pos.x + toMove);
+				this.pos.x = Math.abs(dx) < move ? this.dest.x : (this.pos.x + move);
 			} else if (dx < 0) {
-				this.pos.x = (Math.abs(this.pos.x - this.dest.x)) < toMove ? this.dest.x : (this.pos.x - toMove);
+				this.pos.x = Math.abs(dx) < move ? this.dest.x : (this.pos.x - move);
 			}
 
 
 			if (dy > 0) {
-				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y + toMove);
+				this.pos.y = Math.abs(dy) < move ? this.dest.y : (this.pos.y + move);
 			} else if (dy < 0) {
-				this.pos.y = (Math.abs(this.pos.y - this.dest.y)) < toMove ? this.dest.y : (this.pos.y - toMove);
+				this.pos.y = Math.abs(dy) < move ? this.dest.y : (this.pos.y - move);
 			}
 
 			if (this.dest.equal(this.pos)) {
 				this.playAnimation("stand",true);
 
-				//
 				// clear target if we were moving to a target.
-				//
-				//gInput.targetEnabled = false;
+				gInput.targetEnabled = false;
 			}
-
-			this._moveLastTime = gTime.now;
 		}
 	}
 }

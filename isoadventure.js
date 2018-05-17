@@ -9,56 +9,6 @@ var gAssets;	// all A/V files for the game.
 var gPlayer;	// the player.
 var gTime;		// game time.
 
-function randInt(min, max) {
-    return Math.floor(Math.random() * (max - min) ) + min;
-}
-
-class GameTimer {
-
-	constructor() {
-		this._startTime 		= new Date();
-		this._lastTime			= new Date();
-		this._curTime 			= new Date();
-		this._elapsedSinceStart = this._curTime - this._startTime;
-		this._elapsedSinceLast 	= this._curTime - this._lastTime;
-	}
-
-	update() {
-		var nTime = new Date();
-		this._elapsedSinceLast 	= nTime - this._lastTime;
-		this._elapsedSinceStart = nTime - this._startTime;
-		this._lastTime 			= this._curTime;
-		this._curTime 			= nTime; 
-	}
-
-	get start() 				{return this._startTime;}
-	get now()  					{return this._curTime;}
-	get last() 					{return this._lastTime;}
-	get sinceStart() 			{return this._elapsedSinceStart;}
-	get sinceLast() 			{return this._elapsedSinceLast;}
-
-}
-
-
-class Debug {
-
-	constructor() {
-		this._curTile = 0;
-		this._showTile = false;
-		this._debugMode = false;
-		this._tileSheet = gAssets.tileSheets["goblin"];
-	}
-
-	get curTile() 		{return this._curTile;}
-	get showTile() 		{return this._showTile;}
-	get debugMode() 	{return this._debugMode;}
-	get tileSheet() 	{return this._tileSheet;}
-
-	set curTile(v) 		{this._curTile = v;}
-	set showTile(v) 	{this._showTile = v;}
-	set debugMode(v) 	{this._debugMode = v;}
-	set tileSheet(v) 	{this._tileSheet = v;}
-}
 
 function deferredInit() {
 

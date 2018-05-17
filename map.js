@@ -1,5 +1,6 @@
 
 
+
 var mapInitData = [
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,61,48,48,48,48,48,48,48,48,48,48,48,60, 0, 0, 0, 0, 0, 0, 0],
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2,51, 0, 0, 0, 0, 0, 0, 0],
@@ -13,16 +14,15 @@ var mapInitData = [
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2,51, 0, 0, 0, 0, 0, 0, 0],
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2,51, 0, 0, 0, 0, 0, 0, 0],
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2,51, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,62,50,50,50,50, 2, 2,50,50,50,50,50,63, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49, 2, 2,51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49, 2, 2,51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,63, 2, 2,51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2,51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2,51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,62,50,50,50,50,50,50,50,50,50,50,50,63, 0, 0, 0, 0, 0, 0, 0],
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	];
 
 class Map {
@@ -36,7 +36,6 @@ class Map {
 		this._viewOffset   	= new Point(800,-100);
 		this._viewScale 	= 1.0;
 
-
 		var flavors;
 		var o;
 
@@ -48,6 +47,9 @@ class Map {
 				o = new GameObject(this._tileSheetName);
 
 				switch(mapInitData[y][x]) {
+				case 8:
+					o.tile = this._tileSheet.getTileByIndex(112);
+				break;
 				case 2:
 					o.tile = (randInt(0,10)>= 1) ? this._tileSheet.getTileByName("floor",true) : this._tileSheet.getTileByName("floor ambience",true)
 				break;
@@ -101,10 +103,12 @@ class Map {
 	
 	get data() {return this._data;}
 
+	// conversion functions to and fron map/screen space.
 	mapToScreenX(x,y) 		{return (x-y) * (this.cellWidth/2)}
 	mapToScreenY(x,y) 		{return (x+y) * (this.cellHeight/2)}
 	screenToMapY (x,y) 		{return y/this.cellHeight - x/this.cellWidth;}
 	screenToMapX (x,y) 		{return x/this.cellWidth + y/this.cellHeight;}
+
 
 	update() {
 
@@ -115,42 +119,29 @@ class Map {
 		gGraphics.clear();
 
 
-		//
 		// use the transformed offset and scale
-		//
 		gGraphics.setTransform(this._viewOffset.x,this._viewOffset.y,this._viewScale);
 	
-		//
 		// now draw the visible map and objects.
-		//
 		for (var y = 0; y < this._height; y++) {
 			for (var x = 0; x < this._width; x++) {
 				this._data[y][x].draw();
 			}
 		}
 
-
-		//
 		// draw destination target if one is currently active.
-		//
 		if (gInput.targetEnabled) {
 			gInput.target.draw();
 			
 		}
 
-
-
 		gPlayer.draw();
 
-		//
+
 		// reset the zoom and pan parameters to the identity matrix, and then draw HUD elements.
-		//
 		gGraphics.resetTransform();
 
 		gInput.cursor.drawNoConversion();
-		
-
-
 		gGraphics.text(10,20,"cursor: " + gInput.cursor.pos.toString());
 		gGraphics.text(10,40,"cursor as map: " + new Point(gInput.cursor.pos).toMap().toString());
 		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gInput.cursor.pos).toMap().toString());

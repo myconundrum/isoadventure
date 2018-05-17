@@ -1,9 +1,3 @@
-
-//
-// graphics subsytem.
-//
-
-
 class GameGraphics {
 
 	constructor() {
@@ -14,6 +8,8 @@ class GameGraphics {
 		this._fontColor = "white"; 
 
 
+		// transform and inverse transform used to scale graphics with zoom and pan, and 
+		// then convert back.
 		this._transform = [1,0,0,1,0,0];
 		this._inverseTransform = [1,0,0,1];
 
@@ -32,11 +28,13 @@ class GameGraphics {
 	get fontColor()		{return this._fontColor;}
 	set fontColor(v)	{this._fontColor = v;}
 
+	// reset the display (reset transform and clear screen)
 	clear() {
+		this.resetTransform();
 		this._ctx.fillStyle = this._bgColor;
 		this._ctx.fillRect(0,0,this._canvas.width,this._canvas.height);
-		this.resetTransform();
 	}
+
 
 	text(x,y,str) {
 		this._ctx.fillStyle = this._fontColor;
@@ -44,15 +42,9 @@ class GameGraphics {
 		this._ctx.fillStyle = this._bgColor;
 	}
 
-	resetTransform() {
-		
-		this._ctx.resetTransform();
-	}
+	resetTransform() {this._ctx.resetTransform();}
 
-	useTransform() {
-		
-	}
-
+	// taken from stack overflow. Nice solution.
 	setTransform(offsetX,offsetY,scale) {
 
 		var m; 				// just to make it easier to type and read
@@ -96,7 +88,9 @@ class GameGraphics {
 	}
 
 	untransformPoint(p) {
+
 		var rp = new Point(p.x - this._transform[4],p.y - this._transform[5]);
+		
 		rp.x = rp.x * this._inverseTransform[0] + rp.y * this._inverseTransform[2];
 		rp.y = rp.x * this._inverseTransform[1] + rp.y * this._inverseTransform[3];
 
@@ -105,13 +99,10 @@ class GameGraphics {
 
 	drawTile(x,y,tile) {
 
-		x += tile.skewX;
-		y += tile.skewY;
-		x += tile.sheet.globalSkewX;
-		y += tile.sheet.globalSkewY;
+		x = x + tile.skewX + tile.sheet.globalSkewX;
+		y = y + tile.skewY + tile.sheet.globalSkewY;
 
-		this._ctx.drawImage(
-			tile.sheet.image,
+		this._ctx.drawImage(tile.sheet.image,
 			tile.x,tile.y,tile.width,tile.height,
 			x,y,tile.width*tile.sheet.globalScale,tile.height*tile.sheet.globalScale);
 	}
