@@ -1,6 +1,4 @@
 
-
-
 class GameObject {
 
 	constructor(sheet) {
@@ -24,14 +22,23 @@ class GameObject {
 		if (this.tile != null) {
 			gGraphics.drawTile(p.x,p.y,this.tile);
 		}
-	}
-
-	// use if coordinates are already in screenspace.
-	drawNoConversion() {
-		gGraphics.drawTile(this.pos.x,this.pos.y,this.tile);
-	}
+	}		
 }
 
+class UIGameObject extends GameObject {
+
+	constructor(sheet) {
+		super(sheet);
+		this.tile = this.sheet.getTileByIndex(0);
+
+	}
+
+	// coordinates are already in screenspace for ui objects.
+	draw() {
+		gGraphics.drawTile(this.pos.x,this.pos.y,this.tile);
+	}
+
+}
 
 class AnimatedGameObject extends GameObject {
 
@@ -66,10 +73,12 @@ class AnimatedGameObject extends GameObject {
 			console.log("No animation found named " + name + ".");
 		}
 
-		this._frame 	= this._animation.start;
+		this._frame 	= 0;
 		this._start 	= gTime.now;
 		this._looping 	= loop;
 		this._playing 	= true;
+
+		
 	}
 
 	get tile() {
@@ -79,8 +88,7 @@ class AnimatedGameObject extends GameObject {
 			if (this._looping) {
 				this._start = gTime.now;
 				this._frame = 0;
-			}
-			else {
+			} else {
 				this._playing = false;
 			}
 		}
@@ -90,10 +98,8 @@ class AnimatedGameObject extends GameObject {
 		}
 
 		return this._sheet.getTileByIndex(this._animation.start + this._frame);
-
 	}
 }
-
 
 function getNamedDirection(dx,dy) {
 

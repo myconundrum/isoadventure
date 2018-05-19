@@ -1,22 +1,26 @@
 
 
 
-class Player extends AnimatedGameObject {
+class Player extends GameObject {
 
+	constructor() {
 
-	constructor(name) {
+		super();
 
-		super(name);
-
-		this.direction = "north";
-		this.playAnimation("stand",true);
-
-
+		
 		this._dest 			= new Point(5,17);
 		this._moveDist 		= 0;
 		this._moveLastTime 	= 0;
 		this._moveSpeed 	= 1000;
 
+		this._head 	= new AnimatedGameObject("default head");
+		this._feet 	= new AnimatedGameObject("default feet");
+		this._chest = new AnimatedGameObject("default chest");
+		this._hands = new AnimatedGameObject("default hands");
+		this._legs 	= new AnimatedGameObject("default legs");
+
+		this.direction = "north";
+		this.playAnimation("stand",true);
 		this.pos = this._dest.clone();
 	}
 
@@ -30,6 +34,39 @@ class Player extends AnimatedGameObject {
 	set moveDist(v) 	{this._moveDist = v;}
 	set moveLastTime(v) {this._moveLastTime = v;}
 	set moveSpeed(v)	{this._moveSpeed = v;}
+
+	get direction() 	{return this._direction;}
+
+	set direction(v)    {
+		this._direction = v;
+		this._head.direction = v;
+		this._feet.direction = v;
+		this._chest.direction = v;
+		this._legs.direction = v;
+		this._hands.direction = v;
+	}
+
+
+	playAnimation(name,loop) {
+		this._head.playAnimation(name,loop);
+		this._feet.playAnimation(name,loop);
+		this._chest.playAnimation(name,loop);
+		this._legs.playAnimation(name,loop);
+		this._hands.playAnimation(name,loop);
+	}
+
+
+	draw() {
+		var p = this.pos.toScreen();
+
+		gGraphics.drawTile(p.x,p.y,this._head.tile);
+		gGraphics.drawTile(p.x,p.y,this._feet.tile);
+		gGraphics.drawTile(p.x,p.y,this._chest.tile);
+		gGraphics.drawTile(p.x,p.y,this._hands.tile);
+		gGraphics.drawTile(p.x,p.y,this._legs.tile);
+		
+	}
+
 
 	update() {
 

@@ -3,9 +3,10 @@ class Assets {
 	constructor() {
 		
 		this._tileSheets = {};
-
+	
 		this._loadedTileSheets = 0;
 
+	
 		for (var i in gConfig.tilesheets) {
 
 			var cur = gConfig.tilesheets[i];
@@ -64,6 +65,7 @@ class Assets {
 	set loadedTileSheets(v)	{this._loadedTileSheets = v;}
 
 	get tileSheets() {return this._tileSheets;}
+	get uiElements() {return this._uiElements;}
 
 	loaded() {return this._loadedTileSheets == gConfig.tilesheets.length}
 }
@@ -87,6 +89,8 @@ class Tile {
 	get sheet() 			{return this._sheet;}
 	get skewY() 			{return this._skewY;}
 	get skewX() 			{return this._skewX;}
+
+	set width(v) 			{this._width = v;}
 }
 
 
@@ -142,9 +146,16 @@ class TileSheet {
 			console.log("Loaded TileSheet from " + path + ".");
 			console.log("(w,h): (",thisref._img.naturalWidth.toString() + "," + thisref._img.naturalHeight.toString() +").");
 
+			if (thisref._width == -1) {
+				thisref._width = thisref._img.naturalWidth;
+				thisref._height = thisref._img.naturalHeight;
+			}
+
 			thisref._tilesPerLine 	= thisref._img.naturalWidth/thisref._width;
 			thisref._numLines 		= thisref._img.naturalHeight/thisref._height;
 			thisref._maxIndex 		= thisref._tilesPerLine * thisref._numLines - 1;
+
+
 
 			console.log("   " + (thisref._tilesPerLine * thisref._numLines).toString() + " " + thisref._width.toString() + "X" + 
 				thisref._height.toString() + " tiles loaded.");

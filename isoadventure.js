@@ -19,10 +19,11 @@ function deferredInit() {
 
 	console.log("Asset load completed.");
 
+	gUI 		= new GameUI();
 	gDebug		= new Debug();
 	gInput 		= new Input();
 	gMap 		= new Map();
-	gPlayer 	= new Player ("goblin");
+	gPlayer 	= new Player();
 
 	window.requestAnimationFrame(update);
 }
@@ -32,7 +33,7 @@ function init() {
 	gTime 		= new GameTimer();
 	gAssets 	= new Assets();
 	gGraphics 	= new GameGraphics();
-
+	
 	window.requestAnimationFrame(deferredInit);
 }
 
@@ -43,6 +44,7 @@ function update() {
 	gTime.update();
 	gPlayer.update();
 	gMap.update();
+	gUI.update();
 
 	window.requestAnimationFrame(update);
 }

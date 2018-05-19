@@ -10,16 +10,24 @@ class Input {
 		gGraphics.canvas.addEventListener('mouseup',onMouseUp);
 		gGraphics.canvas.addEventListener('mousewheel',onMouseWheel,{passive:true});
 
-		this._cursor = new GameObject("cursor gauntlet");
-		this._cursor.tile = this._cursor.sheet.getTileByIndex(0);
+		this._cursor = new UIGameObject("cursor gauntlet");
 		this._target = new AnimatedGameObject("runes");
 		this._target.playAnimation("click",true);
 		this._targetActive = false;
+		this._viewOffset = new Point(800,-100);
+		this._viewScale  = 1;
 
 		this._mouseDrag = false;
 		this._mouseDown = false;
 		this._mouseDragPos = new Point(0,0);
 	}
+
+	get viewOffset()  		{return this._viewOffset;}				// offset to draw pixels on the screen, used with pan
+	get viewScale()			{return this._viewScale;}				// scale to draw, used with zooming.
+
+	set viewOffset(v)		{this._viewOffset = v;}
+	set viewScale(v)		{this._viewScale = v;}
+	
 
 	get cursor()  			{return this._cursor;}
 	get mouseDown() 		{return this._mouseDown;}
@@ -40,7 +48,7 @@ var MOUSESCROLLSPEED=20
 function onMouseWheel(e) {
 
   	var delta = e.wheelDelta ? e.wheelDelta/40 : e.detail ? -e.detail/3 : 0;
-  	gMap.viewScale += delta/MOUSESCROLLSPEED;
+  	gInput.viewScale += delta/MOUSESCROLLSPEED;
 };
 
 function onMouseDown(e) {gInput.mouseDown = true;}
@@ -57,19 +65,23 @@ function centerTileOnPos(tile,pos) {
 function onMouseUp(e) {
 
 	if (!gInput.mouseDrag) {
+
 		
 		// get the location of the cursor in world coordinates, and set it as the player destination.
 		gInput.target.pos = centerTileOnPos(gInput.target.tile,gGraphics.untransformPoint(gInput.cursor.pos)).toMap();
-		gPlayer.dest = gInput.target.pos.clone();
 
-		// enable the display of the target animation.
-		gInput.targetEnabled = true;
-		
-		gPlayer.moveDist = gPlayer.dest.distance(gPlayer.pos);
-		gPlayer.moveLastTime = gTime.now;
+		//if (gMap.canClick(gInput.target.pos)) {
+			gPlayer.dest = gInput.target.pos.clone();
 
-		// the player will start walking towards the destination.
-		gPlayer.playAnimation("run",true);
+			// enable the display of the target animation.
+			gInput.targetEnabled = true;
+			
+			gPlayer.moveDist = gPlayer.dest.distance(gPlayer.pos);
+			gPlayer.moveLastTime = gTime.now;
+
+			// the player will start walking towards the destination.
+			gPlayer.playAnimation("run",true);
+		//}
 	}
 
 	// clear mouse button down and mouse dragging.
@@ -94,7 +106,7 @@ function onMouseMove(e) {
 		// if we are currently doing a mouse drag, update our viewoffset for panning.
 		var diffX = gInput.mouseDragPos.x-x;
 		var diffY = gInput.mouseDragPos.y-y;
-		gMap.viewOffset.sub(diffX,diffY);
+		gInput.viewOffset.sub(diffX,diffY);
 		gInput.mouseDragPos.set(x,y);
 	}
 

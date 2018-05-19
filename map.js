@@ -33,9 +33,7 @@ class Map {
 		this._tileSheet 	= gAssets.tileSheets[this._tileSheetName];
 		this._height 		= mapInitData.length;
 		this._width 		= mapInitData[0].length;
-		this._viewOffset   	= new Point(800,-100);
-		this._viewScale 	= 1.0;
-
+		
 		var flavors;
 		var o;
 
@@ -94,13 +92,7 @@ class Map {
 	get height() 				{return this._height;}					// number of cells high
 	get cellWidth()				{return this._tileSheet.baseWidth;}		// cell width in pixels
 	get cellHeight()			{return this._tileSheet.baseHeight;}    // cell height in pixels
-	get viewOffset()  			{return this._viewOffset;}				// offset to draw pixels on the screen, used with pan
-	get viewScale()				{return this._viewScale;}				// scale to draw, used with zooming.
 
-
-	set viewOffset(v)			{this._viewOffset = v;}
-	set viewScale(v)			{this._viewScale = v;}
-	
 	get data() {return this._data;}
 
 	// conversion functions to and fron map/screen space.
@@ -109,18 +101,29 @@ class Map {
 	screenToMapY (x,y) 		{return y/this.cellHeight - x/this.cellWidth;}
 	screenToMapX (x,y) 		{return x/this.cellWidth + y/this.cellHeight;}
 
+	canClick(x,y) {
+		var my,mx;
+
+		if (x instanceof Point) {
+			my = x.y.toFixed();
+			mx = x.x.toFixed();
+		} else {
+			my = y;
+			mx = x;
+		}
+
+		return this._data[my][mx] == 2;
+	}
 
 	update() {
 
 		var sx,sy,o;
-	
 
 		// clear screen, scale to current zoom, and translate to current pan parameters.
 		gGraphics.clear();
 
-
 		// use the transformed offset and scale
-		gGraphics.setTransform(this._viewOffset.x,this._viewOffset.y,this._viewScale);
+		gGraphics.setTransform(gInput.viewOffset.x,gInput.viewOffset.y,gInput.viewScale);
 	
 		// now draw the visible map and objects.
 		for (var y = 0; y < this._height; y++) {
@@ -131,24 +134,22 @@ class Map {
 
 		// draw destination target if one is currently active.
 		if (gInput.targetEnabled) {
-			gInput.target.draw();
-			
+			gInput.target.draw();			
 		}
 
 		gPlayer.draw();
 
-
 		// reset the zoom and pan parameters to the identity matrix, and then draw HUD elements.
 		gGraphics.resetTransform();
 
-		gInput.cursor.drawNoConversion();
+		gInput.cursor.draw();
 		gGraphics.text(10,20,"cursor: " + gInput.cursor.pos.toString());
 		gGraphics.text(10,40,"cursor as map: " + new Point(gInput.cursor.pos).toMap().toString());
 		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gInput.cursor.pos).toMap().toString());
 		gGraphics.text(10,80,"target: " + gInput.target.pos.toString());
 		gGraphics.text(10,100,"dest: " + gPlayer.dest.toString());
 		gGraphics.text(10,120,"loc: " + gPlayer.pos.toString());
-		gGraphics.text(10,140,"scale: " + this.viewScale.toString());
+		gGraphics.text(10,140,"scale: " + gInput.viewScale.toString());
 	}
 }
 

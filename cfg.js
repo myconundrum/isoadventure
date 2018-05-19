@@ -29,6 +29,13 @@
 */
 
 var gConfig = {
+	"ui" : {
+		"action bar" 	: "assets/ui/Main Action Bar/Action Bar Texture/abt_whole.png",
+		"xp fill"    	: "assets/ui/Main Action Bar/Action Bar Texture/xp_fill.png",
+		"xp gloss"    	: "assets/ui/Main Action Bar/Action Bar Texture/xp_gloss.png",
+		"xp separators"	: "assets/ui/Main Action Bar/Action Bar Texture/xp_separators.png",
+
+	},
 
 	"tilesheets" : [
 		{
@@ -54,6 +61,117 @@ var gConfig = {
 		},
 
 		{
+			"name"			: "default chest",
+			"path"			: "assets/hero/default_chest.png",
+			"tileWidth"		: 128,
+			"tileHeight"	: 128,
+			"globalScale"	: 1.75,
+			"globalSkewX"	: -80,
+			"globalSkewY"	: -140,
+			"animations"    : {
+				"stand" 	: {"start":0,"frames":4,"duration":800},
+				"run"		: {"start":4,"frames":8,"duration":533},
+				"swing"		: {"start":12,"frames":4,"duration":300},
+				"cast"		: {"start":24,"frames":4,"duration":533},
+				"shoot"		: {"start":28,"frames":4,"duration":400},
+				"block"		: {"start":16,"frames":2,"duration":200},
+				"hit"		: {"start":18,"frames":2,"duration":133},
+				"die"		: {"start":18,"frames":6,"duration":400},
+				
+			},
+			"directions" : ["west","northwest","north","northeast","east","southeast","south","southwest"]
+		},
+
+		{
+			"name"			: "default head",
+			"path"			: "assets/hero/male_head1.png",
+			"tileWidth"		: 128,
+			"tileHeight"	: 128,
+			"globalScale"	: 1.75,
+			"globalSkewX"	: -80,
+			"globalSkewY"	: -140,
+			"animations"    : {
+				"stand" 	: {"start":0,"frames":4,"duration":800},
+				"run"		: {"start":4,"frames":8,"duration":533},
+				"swing"		: {"start":12,"frames":4,"duration":300},
+				"cast"		: {"start":24,"frames":4,"duration":533},
+				"shoot"		: {"start":28,"frames":4,"duration":400},
+				"block"		: {"start":16,"frames":2,"duration":200},
+				"hit"		: {"start":18,"frames":2,"duration":133},
+				"die"		: {"start":18,"frames":6,"duration":400},
+				
+			},
+			"directions" : ["west","northwest","north","northeast","east","southeast","south","southwest"]
+		},
+
+		{
+			"name"			: "default legs",
+			"path"			: "assets/hero/default_legs.png",
+			"tileWidth"		: 128,
+			"tileHeight"	: 128,
+			"globalScale"	: 1.75,
+			"globalSkewX"	: -80,
+			"globalSkewY"	: -140,
+			"animations"    : {
+				"stand" 	: {"start":0,"frames":4,"duration":800},
+				"run"		: {"start":4,"frames":8,"duration":533},
+				"swing"		: {"start":12,"frames":4,"duration":300},
+				"cast"		: {"start":24,"frames":4,"duration":533},
+				"shoot"		: {"start":28,"frames":4,"duration":400},
+				"block"		: {"start":16,"frames":2,"duration":200},
+				"hit"		: {"start":18,"frames":2,"duration":133},
+				"die"		: {"start":18,"frames":6,"duration":400},
+				
+			},
+			"directions" : ["west","northwest","north","northeast","east","southeast","south","southwest"]
+		},
+
+		{
+			"name"			: "default feet",
+			"path"			: "assets/hero/default_feet.png",
+			"tileWidth"		: 128,
+			"tileHeight"	: 128,
+			"globalScale"	: 1.75,
+			"globalSkewX"	: -80,
+			"globalSkewY"	: -140,
+			"animations"    : {
+				"stand" 	: {"start":0,"frames":4,"duration":800},
+				"run"		: {"start":4,"frames":8,"duration":533},
+				"swing"		: {"start":12,"frames":4,"duration":300},
+				"cast"		: {"start":24,"frames":4,"duration":533},
+				"shoot"		: {"start":28,"frames":4,"duration":400},
+				"block"		: {"start":16,"frames":2,"duration":200},
+				"hit"		: {"start":18,"frames":2,"duration":133},
+				"die"		: {"start":18,"frames":6,"duration":400},
+				
+			},
+			"directions" : ["west","northwest","north","northeast","east","southeast","south","southwest"]
+		},
+
+		{
+			"name"			: "default hands",
+			"path"			: "assets/hero/default_hands.png",
+			"tileWidth"		: 128,
+			"tileHeight"	: 128,
+			"globalScale"	: 1.75,
+			"globalSkewX"	: -80,
+			"globalSkewY"	: -140,
+			"animations"    : {
+				"stand" 	: {"start":0,"frames":4,"duration":800},
+				"run"		: {"start":4,"frames":8,"duration":533},
+				"swing"		: {"start":12,"frames":4,"duration":300},
+				"cast"		: {"start":24,"frames":4,"duration":533},
+				"shoot"		: {"start":28,"frames":4,"duration":400},
+				"block"		: {"start":16,"frames":2,"duration":200},
+				"hit"		: {"start":18,"frames":2,"duration":133},
+				"die"		: {"start":18,"frames":6,"duration":400},
+				
+			},
+			"directions" : ["west","northwest","north","northeast","east","southeast","south","southwest"]
+		},
+
+
+		{
 			"name"			: "runes",
 			"path"			: "assets/runes.png",
 			"tileWidth"		: 64,
@@ -71,6 +189,44 @@ var gConfig = {
 			"tileWidth"		: 30,
 			"tileHeight"	: 30
 		},
+		{
+			"name"			: "action bar",
+			"path"			: "assets/ui/Main Action Bar/Action Bar Texture/abt_whole.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6
+		},
+
+		{
+			"name"			: "xp fill",
+			"path"			: "assets/ui/Main Action Bar/Action Bar Texture/xp_fill.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 50,
+			"globalSkewY"   : 66
+		},
+
+		{
+			"name"			: "xp gloss",
+			"path"			: "assets/ui/Main Action Bar/Action Bar Texture/xp_gloss.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 50,
+			"globalSkewY"   : 66
+		},
+
+		{
+			"name"			: "xp separators",
+			"path"			: "assets/ui/Main Action Bar/Action Bar Texture/xp_separators.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 97,
+			"globalSkewY"   : 62
+		},
+
 		{
 			"name"			: "cave",
 			"path"			: "assets/cave_tileset.png",

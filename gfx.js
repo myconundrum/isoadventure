@@ -97,6 +97,7 @@ class GameGraphics {
 		return rp;
 	}
 
+	
 	drawTile(x,y,tile) {
 
 		x = x + tile.skewX + tile.sheet.globalSkewX;
