@@ -198,13 +198,13 @@ var gConfig = {
 		},
 
 		{
-			"name"			: "xp fill",
-			"path"			: "assets/ui/Main Action Bar/Action Bar Texture/xp_fill.png",
+			"name"			: "action frame",
+			"path"			: "assets/ui/Main Action Bar/Potions Type B/p_frame.png",
 			"tileWidth"		: -1,
 			"tileHeight"	: -1,
 			"globalScale" 	: .6,
-			"globalSkewX"   : 50,
-			"globalSkewY"   : 66
+			"globalSkewX"   : 74,
+			"globalSkewY"	: 16
 		},
 
 		{
@@ -213,7 +213,7 @@ var gConfig = {
 			"tileWidth"		: -1,
 			"tileHeight"	: -1,
 			"globalScale" 	: .6,
-			"globalSkewX"   : 50,
+			"globalSkewX"   : 52,
 			"globalSkewY"   : 66
 		},
 
@@ -223,9 +223,46 @@ var gConfig = {
 			"tileWidth"		: -1,
 			"tileHeight"	: -1,
 			"globalScale" 	: .6,
-			"globalSkewX"   : 97,
+			"globalSkewX"   : 98,
 			"globalSkewY"   : 62
 		},
+		{
+			"name"			: "hp frame",
+			"path"			: "assets/ui/Main Action Bar/Health Points/hp_frame.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : -55,
+			"globalSkewY"   : -35
+		},
+		{
+			"name"			: "hp gloss",
+			"path"			: "assets/ui/Main Action Bar/Health Points/hp_gloss.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : -51.5,
+			"globalSkewY"   : -30
+		},
+		{
+			"name"			: "mana frame",
+			"path"			: "assets/ui/Main Action Bar/Resource Points (Mana Type)/rp_frame.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 500,
+			"globalSkewY"   : -35
+		},
+		{
+			"name"			: "mana gloss",
+			"path"			: "assets/ui/Main Action Bar/Resource Points (Mana Type)/rp_gloss.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 505.5,
+			"globalSkewY"   : -30
+		},
+
 
 		{
 			"name"			: "cave",

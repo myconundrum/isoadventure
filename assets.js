@@ -91,6 +91,9 @@ class Tile {
 	get skewX() 			{return this._skewX;}
 
 	set width(v) 			{this._width = v;}
+	set x(v)				{this._x = v;}
+	set y(v) 				{this._y = v;}
+	set height(v)			{this._height = v;}
 }
 
 

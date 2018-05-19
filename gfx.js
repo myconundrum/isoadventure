@@ -7,6 +7,11 @@ class GameGraphics {
 		this._bgColor   = "gray";
 		this._fontColor = "white"; 
 
+		this._gradient = this._ctx.createRadialGradient(800,250,10,800,250,700);
+		this._gradient.addColorStop(0,"#000050");
+		this._gradient.addColorStop(1,"#000015");
+
+
 
 		// transform and inverse transform used to scale graphics with zoom and pan, and 
 		// then convert back.
@@ -22,17 +27,19 @@ class GameGraphics {
 	get font() 		   	{return this._ctx.font;}
 	set font(v)			{this._ctx.font = v;}
 
-	get bgColor()		{return this._bgColor;}
-	set bgColor(v) 		{this._bgColor = v;}
-
 	get fontColor()		{return this._fontColor;}
 	set fontColor(v)	{this._fontColor = v;}
 
 	// reset the display (reset transform and clear screen)
 	clear() {
 		this.resetTransform();
-		this._ctx.fillStyle = this._bgColor;
+		this._ctx.save();
+		this._ctx.fillStyle = this._gradient;
 		this._ctx.fillRect(0,0,this._canvas.width,this._canvas.height);
+		this._ctx.restore();
+
+
+
 	}
 
 
