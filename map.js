@@ -142,10 +142,9 @@ class Map {
 		// reset the zoom and pan parameters to the identity matrix, and then draw HUD elements.
 		gGraphics.resetTransform();
 
-		gInput.cursor.draw();
-		gGraphics.text(10,20,"cursor: " + gInput.cursor.pos.toString());
-		gGraphics.text(10,40,"cursor as map: " + new Point(gInput.cursor.pos).toMap().toString());
-		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gInput.cursor.pos).toMap().toString());
+		gGraphics.text(10,20,"cursor: " + gUI.cursor.pos.toString());
+		gGraphics.text(10,40,"cursor as map: " + new Point(gUI.cursor.pos).toMap().toString());
+		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gUI.cursor.pos).toMap().toString());
 		gGraphics.text(10,80,"target: " + gInput.target.pos.toString());
 		gGraphics.text(10,100,"dest: " + gPlayer.dest.toString());
 		gGraphics.text(10,120,"loc: " + gPlayer.pos.toString());

@@ -147,20 +147,143 @@ class UIActionBar {
 	}
 }
 
+// UIEquipSlots expect to be on an UIInventory Page. They don't keep independent position.
+class UIEquipSlot {
+	constructor(x,y) {
+		this._offX = x;
+		this._offY = y;
+		this._slot = new UIGameObject("equip slot");
+	}
+
+	draw(p) {
+		this._slot.pos.set(p.x + this._offX,p.y + this._offY);
+		this._slot.draw();		
+	}
+}
+
+
+class UIEquipped {
+
+	constructor() {
+		this._background = new UIGameObject("legend");
+		this._playerPic  = new UIGameObject("player inventory pic");
+		this._heading 	 = new UIGameObject("heading");
+
+		this._slots = {
+			"head" :  			new UIEquipSlot(136,50),
+			"chest" : 			new UIEquipSlot(136,110),
+			"legs" :  			new UIEquipSlot(136,170),
+			"feet" :  			new UIEquipSlot(136,230),
+			"hands" : 			new UIEquipSlot(85,90),
+			"waist" : 			new UIEquipSlot(190,140),
+			"right weapon" :  	new UIEquipSlot(25,90),
+			"left weapon" :  	new UIEquipSlot(250,90),		
+			"left ring" :  		new UIEquipSlot(25,150),	
+			"right ring" : 		new UIEquipSlot(250,150)
+		};
+
+		
+		this._pos = new Point(500,100);
+
+	}
+
+	draw() {
+
+		gGraphics.drawTile(this._pos.x,this._pos.y,this._background.tile);
+		gGraphics.drawTile(this._pos.x + 80,this._pos.y + 45,this._playerPic.tile);
+		gGraphics.drawTile(this._pos.x + 75,this._pos.y - 20,this._heading.tile);
+
+		for (var key in this._slots) {
+			this._slots[key].draw(this._pos);
+		}
+
+	}
+
+
+}
+
+class UIInventory {
+
+	constructor() {
+		this._topFrame = new UIGameObject("big box top frame");
+		this._background = new UIGameObject("big box background");
+		this._book = new UIGameObject("legend");
+		this._charPic = new UIGameObject("player inventory pic");
+
+		this._topFrame.pos = new Point(500,100);
+		this._background.pos = new Point(500,130);
+		this._book.pos = new Point(500,130);
+		this._charPic.pos = new Point(600,200);
+	}
+
+	draw() {
+
+
+		this._background.draw();
+		this._topFrame.draw();
+		this._book.draw();
+		this._charPic.draw();
+	}
+
+}
+
+class UICursor {
+
+	constructor() {
+
+		this._pos = new Point(0,0);
+
+		this._cursors = {};
+
+		this._cursors["attack cursor"] 				= new UIGameObject("attack cursor");
+		this._cursors["attack cursor invalid"] 		= new UIGameObject("attack cursor invalid");
+		this._cursors["mouse cursor"] 				= new UIGameObject("mouse cursor");
+		this._cursors["mouse cursor invalid"] 		= new UIGameObject("mouse cursor invalid");	
+		this._cursors["merchant cursor"] 			= new UIGameObject("merchant cursor");
+		this._cursors["merchant cursor invalid"] 	= new UIGameObject("merchant cursor invalid");
+		this._cursors["portal cursor"] 				= new UIGameObject("portal cursor");
+		this._cursors["portal cursor invalid"] 		= new UIGameObject("portal cursor invalid");	
+		this._cursors["talk cursor"] 				= new UIGameObject("talk cursor");
+		this._cursors["talk cursor invalid"] 		= new UIGameObject("talk cursor invalid");	
+
+		for (var key in this._cursors) {
+			this._cursors[key].pos = this._pos;
+		}
+
+		this._cur  = "talk cursor";
+
+	}
+
+	get cursor() 		{return this._cur;}
+	set cursor(v) 		{this._cur = v;}
+	get pos() 			{return this._pos;}
+
+	draw() {
+		this._cursors[this._cur].draw();
+	}
+}
+
 
 class GameUI {
 
 	constructor() {
-		this._bar 	= new UIActionBar();
-		this._hp	= new UIResourceGlobe(this._bar.pos,"hp frame","hp gloss",'#AD2121','#7A0505');
-		this._mp	= new UIResourceGlobe(this._bar.pos,"mana frame","mana gloss",'#403DDB','#0A08AE');
-		this._xp 	= new UIResourceLine(this._bar.pos,"green");
+		this._bar 			= new UIActionBar();
+		this._hp			= new UIResourceGlobe(this._bar.pos,"hp frame","hp gloss",'#AD2121','#7A0505');
+		this._mp			= new UIResourceGlobe(this._bar.pos,"mana frame","mana gloss",'#403DDB','#0A08AE');
+		this._xp 			= new UIResourceLine(this._bar.pos,"green");
+		this._cursor 		= new UICursor();
+		this._equipped 		= new UIEquipped();
 	}
 
+	get cursor() {return this._cursor;}
+	
 	update() {
+
 		this._bar.draw();		
 		this._hp.draw();
 		this._mp.draw();
 		this._xp.draw();
+		this._cursor.draw();
+		this._equipped.draw();
 	}
 }

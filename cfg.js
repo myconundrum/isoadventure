@@ -283,6 +283,230 @@ var gConfig = {
 		},
 
 
+
+		{
+			"name"			: "attack cursor",
+			"path"			: "assets/ui/Cursors/attack_n.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "attack cursor invalid",
+			"path"			: "assets/ui/Cursors/attack_in.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "mouse cursor",
+			"path"			: "assets/ui/Cursors/mouse_n.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "mouse cursor invalid",
+			"path"			: "assets/ui/Cursors/mouse_in.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "merchant cursor",
+			"path"			: "assets/ui/Cursors/merchant_n.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "merchant cursor invalid",
+			"path"			: "assets/ui/Cursors/merchant_in.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "portal cursor",
+			"path"			: "assets/ui/Cursors/portal_n.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "portal cursor invalid",
+			"path"			: "assets/ui/Cursors/portal_in.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "talk cursor",
+			"path"			: "assets/ui/Cursors/talk_n.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "talk cursor invalid",
+			"path"			: "assets/ui/Cursors/talk_in.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "medium box bottom frame",
+			"path"			: "assets/ui/Box Player Inventory/bottom_box_ornament.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .5,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "medium box top frame",
+			"path"			: "assets/ui/Box Player Inventory/texture_big_heading.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .5,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "medium box background",
+			"path"			: "assets/ui/Box Player Inventory/player_bg_outer.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 2,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "book",
+			"path"			: "assets/ui/Box Player Inventory/player_book_bg.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .8,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "player inventory pic",
+			"path"			: "assets/ui/Box Player Inventory/player_character_example.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .8,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "equip slot",
+			"path"			: "assets/ui/Box Player Inventory/slot.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "heading",
+			"path"			: "assets/ui/Box Player Inventory/small_heading.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .5,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "big box bottom frame",
+			"path"			: "assets/ui/Box Player Inventory/bottom_box_ornament.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+
+		{
+			"name"			: "big box top frame",
+			"path"			: "assets/ui/Box Big Map/big_heading.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
+
+		{
+			"name"			: "big box background",
+			"path"			: "assets/ui/Box Big Map/big_map_outer.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 2,
+			"globalSkewY"   : 0
+		},
+		{
+			"name"			: "legend",
+			"path"			: "assets/ui/Box Big Map/legend.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: 1,
+			"globalSkewX"   : 2,
+			"globalSkewY"   : 0
+		},
+
+
+
+
+
+
 		{
 			"name"			: "cave",
 			"path"			: "assets/cave_tileset.png",

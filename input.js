@@ -10,7 +10,6 @@ class Input {
 		gGraphics.canvas.addEventListener('mouseup',onMouseUp);
 		gGraphics.canvas.addEventListener('mousewheel',onMouseWheel,{passive:true});
 
-		this._cursor = new UIGameObject("cursor gauntlet");
 		this._target = new AnimatedGameObject("runes");
 		this._target.playAnimation("click",true);
 		this._targetActive = false;
@@ -29,7 +28,6 @@ class Input {
 	set viewScale(v)		{this._viewScale = v;}
 	
 
-	get cursor()  			{return this._cursor;}
 	get mouseDown() 		{return this._mouseDown;}
 	set mouseDown(v) 		{this._mouseDown = v;}
 	get mouseDrag() 		{return this._mouseDrag;}
@@ -68,7 +66,7 @@ function onMouseUp(e) {
 
 		
 		// get the location of the cursor in world coordinates, and set it as the player destination.
-		gInput.target.pos = centerTileOnPos(gInput.target.tile,gGraphics.untransformPoint(gInput.cursor.pos)).toMap();
+		gInput.target.pos = centerTileOnPos(gInput.target.tile,gGraphics.untransformPoint(gUI.cursor.pos)).toMap();
 
 		//if (gMap.canClick(gInput.target.pos)) {
 			gPlayer.dest = gInput.target.pos.clone();
@@ -111,7 +109,7 @@ function onMouseMove(e) {
 	}
 
 	// update cursor position.
-	gInput.cursor.pos.set(x,y);
+	gUI.cursor.pos.set(x,y);
 }
 
 function doKeyDown(e) {
