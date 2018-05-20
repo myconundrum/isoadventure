@@ -114,42 +114,6 @@ class Map {
 
 		return this._data[my][mx] == 2;
 	}
-
-	update() {
-
-		var sx,sy,o;
-
-		// clear screen, scale to current zoom, and translate to current pan parameters.
-		gGraphics.clear();
-
-		// use the transformed offset and scale
-		gGraphics.setTransform(gInput.viewOffset.x,gInput.viewOffset.y,gInput.viewScale);
-	
-		// now draw the visible map and objects.
-		for (var y = 0; y < this._height; y++) {
-			for (var x = 0; x < this._width; x++) {
-				this._data[y][x].draw();
-			}
-		}
-
-		// draw destination target if one is currently active.
-		if (gInput.targetEnabled) {
-			gInput.target.draw();			
-		}
-
-		gPlayer.draw();
-
-		// reset the zoom and pan parameters to the identity matrix, and then draw HUD elements.
-		gGraphics.resetTransform();
-
-		gGraphics.text(10,20,"cursor: " + gUI.cursor.pos.toString());
-		gGraphics.text(10,40,"cursor as map: " + new Point(gUI.cursor.pos).toMap().toString());
-		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gUI.cursor.pos).toMap().toString());
-		gGraphics.text(10,80,"target: " + gInput.target.pos.toString());
-		gGraphics.text(10,100,"dest: " + gPlayer.dest.toString());
-		gGraphics.text(10,120,"loc: " + gPlayer.pos.toString());
-		gGraphics.text(10,140,"scale: " + gInput.viewScale.toString());
-	}
 }
 
 

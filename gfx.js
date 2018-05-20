@@ -1,6 +1,3 @@
-
-
-
 class GameGraphics {
 
 	constructor() {
@@ -14,22 +11,15 @@ class GameGraphics {
 		this._gradient.addColorStop(0,"#000050");
 		this._gradient.addColorStop(1,"#000015");
 
-
-
-		// transform and inverse transform used to scale graphics with zoom and pan, and 
-		// then convert back.
+		// transform and inverse transform used to scale graphics with zoom and pan, and convert back.
 		this._transform = [1,0,0,1,0,0];
 		this._inverseTransform = [1,0,0,1];
-
-
 	}
 
 	get canvas() 		{return this._canvas;}
 	get ctx() 	 		{return this._ctx;}
-
 	get font() 		   	{return this._ctx.font;}
 	set font(v)			{this._ctx.font = v;}
-
 	get fontColor()		{return this._fontColor;}
 	set fontColor(v)	{this._fontColor = v;}
 
@@ -40,11 +30,7 @@ class GameGraphics {
 		this._ctx.fillStyle = this._gradient;
 		this._ctx.fillRect(0,0,this._canvas.width,this._canvas.height);
 		this._ctx.restore();
-
-
-
 	}
-
 
 	text(x,y,str) {
 		this._ctx.fillStyle = this._fontColor;
@@ -78,23 +64,16 @@ class GameGraphics {
 		m[5] = offsetY;
 
 		// calculate the inverse transformation
-
-		// first get the cross product of x axis and y axis
-		cross = m[0] * m[3] - m[1] * m[2];
-
+		cross = m[0] * m[3] - m[1] * m[2]; // first get the cross product of x axis and y axis
+	
 		// now get the inverted axis
 		im[0] =  m[3] / cross;
 		im[1] = -m[1] / cross;
 		im[2] = -m[2] / cross;
 		im[3] =  m[0] / cross;
 
-		this._ctx.setTransform(
-			this._transform[0],
-			this._transform[1],
-			this._transform[2],
-			this._transform[3],
-			this._transform[4],
-			this._transform[5]);
+		this._ctx.setTransform(this._transform[0],this._transform[1],this._transform[2],
+			this._transform[3],this._transform[4],this._transform[5]);
 	}
 
 	untransformPoint(p) {
@@ -103,11 +82,9 @@ class GameGraphics {
 		
 		rp.x = rp.x * this._inverseTransform[0] + rp.y * this._inverseTransform[2];
 		rp.y = rp.x * this._inverseTransform[1] + rp.y * this._inverseTransform[3];
-
 		return rp;
 	}
 
-	
 	drawTile(x,y,tile) {
 
 		x = x + tile.skewX + tile.sheet.globalSkewX;

@@ -146,9 +146,6 @@ class TileSheet {
 		var thisref = this;
 		this._img.onload = function() {
 
-			console.log("Loaded TileSheet from " + path + ".");
-			console.log("(w,h): (",thisref._img.naturalWidth.toString() + "," + thisref._img.naturalHeight.toString() +").");
-
 			if (thisref._width == -1) {
 				thisref._width = thisref._img.naturalWidth;
 				thisref._height = thisref._img.naturalHeight;
@@ -157,11 +154,6 @@ class TileSheet {
 			thisref._tilesPerLine 	= thisref._img.naturalWidth/thisref._width;
 			thisref._numLines 		= thisref._img.naturalHeight/thisref._height;
 			thisref._maxIndex 		= thisref._tilesPerLine * thisref._numLines - 1;
-
-
-
-			console.log("   " + (thisref._tilesPerLine * thisref._numLines).toString() + " " + thisref._width.toString() + "X" + 
-				thisref._height.toString() + " tiles loaded.");
 
 			gAssets.loadedTileSheets++;
 		};
@@ -183,9 +175,9 @@ class TileSheet {
 	get directions() 			{return this._directions;}
 	get useDirections()   		{return this._useDirections;}
 
-	get tilesPerLine() 	{return this._tilesPerLine;}
-	get numLines() 		{return this._numLines;}
-	get maxIndex()		{return this._maxIndex;}
+	get tilesPerLine() 			{return this._tilesPerLine;}
+	get numLines() 				{return this._numLines;}
+	get maxIndex()				{return this._maxIndex;}
 	
 	set image(v)				{this._img = v;}
 	set name(v) 				{this._name = v;}

@@ -147,6 +147,49 @@ class UIActionBar {
 	}
 }
 
+class UIMap {
+
+	constructor() {
+
+	}
+
+	draw() {
+		
+		var sx,sy,o;
+		// use the transformed offset and scale
+		gGraphics.setTransform(gInput.viewOffset.x,gInput.viewOffset.y,gInput.viewScale);
+	
+		// now draw the visible map and objects.
+		for (var y = 0; y < gMap._height; y++) {
+			for (var x = 0; x < gMap._width; x++) {
+				gMap._data[y][x].draw();
+			}
+		}
+
+		// draw destination target if one is currently active.
+		if (gInput.targetEnabled) {
+			gInput.target.draw();			
+		}
+
+		gPlayer.draw();
+
+		// reset the zoom and pan parameters to the identity matrix, and then draw HUD elements.
+		gGraphics.resetTransform();
+
+		gGraphics.text(10,20,"cursor: " + gUI.cursor.pos.toString());
+		gGraphics.text(10,40,"cursor as map: " + new Point(gUI.cursor.pos).toMap().toString());
+		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gUI.cursor.pos).toMap().toString());
+		gGraphics.text(10,80,"target: " + gInput.target.pos.toString());
+		gGraphics.text(10,100,"dest: " + gPlayer.dest.toString());
+		gGraphics.text(10,120,"loc: " + gPlayer.pos.toString());
+		gGraphics.text(10,140,"scale: " + gInput.viewScale.toString());
+
+
+
+
+	}
+}
+
 // UIEquipSlots expect to be on an UIInventory Page. They don't keep independent position.
 class UIEquipSlot {
 	constructor(x,y) {
@@ -161,45 +204,65 @@ class UIEquipSlot {
 	}
 }
 
+// Headings don't expect to be on their own. They don't keep independent positions.
+class UIHeading {
+
+	constructor (x,y,string) {
+		this._offX = x;
+		this._offY = y;
+		this._heading = new UIGameObject("heading");
+		this._string = string;
+		this._textOffX = x + this._heading.tile.width*this._heading.tile.sheet.globalScale / 2 - 
+			gGraphics.ctx.measureText(this._string).width/2;
+
+		this._textOffY = y + this._heading.tile.height / 3.5;
+	}
+
+	get string() 	{return this._string;}
+	set string(v) 	{this._string = v;}
+
+	draw(p) {
+
+		this._heading.pos.set(p.x + this._offX,p.y + this._offY);
+		this._heading.draw();	
+
+		gGraphics.text(p.x + this._textOffX, p.y+ this._textOffY,this._string);
+	}
+}
 
 class UIEquipped {
 
 	constructor() {
 		this._background = new UIGameObject("legend");
+		this._heading 	 = new UIHeading(75,-20,"Equipped");
+
 		this._playerPic  = new UIGameObject("player inventory pic");
-		this._heading 	 = new UIGameObject("heading");
 
 		this._slots = {
-			"head" :  			new UIEquipSlot(136,50),
-			"chest" : 			new UIEquipSlot(136,110),
-			"legs" :  			new UIEquipSlot(136,170),
-			"feet" :  			new UIEquipSlot(136,230),
-			"hands" : 			new UIEquipSlot(85,90),
-			"waist" : 			new UIEquipSlot(190,140),
-			"right weapon" :  	new UIEquipSlot(25,90),
-			"left weapon" :  	new UIEquipSlot(250,90),		
-			"left ring" :  		new UIEquipSlot(25,150),	
-			"right ring" : 		new UIEquipSlot(250,150)
+			"head" 			:  			new UIEquipSlot(136,50),
+			"chest" 		: 			new UIEquipSlot(136,110),
+			"legs" 			:  			new UIEquipSlot(136,170),
+			"feet" 			:  			new UIEquipSlot(136,230),
+			"hands" 		: 			new UIEquipSlot(85,90),
+			"waist" 		: 			new UIEquipSlot(190,140),
+			"right weapon" 	:  			new UIEquipSlot(25,90),
+			"left weapon" 	:  			new UIEquipSlot(250,90),		
+			"left ring" 	:  			new UIEquipSlot(25,150),	
+			"right ring" 	: 			new UIEquipSlot(250,150)
 		};
-
-		
 		this._pos = new Point(500,100);
-
 	}
-
 	draw() {
 
 		gGraphics.drawTile(this._pos.x,this._pos.y,this._background.tile);
+		this._heading.draw(this._pos);
+	
 		gGraphics.drawTile(this._pos.x + 80,this._pos.y + 45,this._playerPic.tile);
-		gGraphics.drawTile(this._pos.x + 75,this._pos.y - 20,this._heading.tile);
-
+		
 		for (var key in this._slots) {
 			this._slots[key].draw(this._pos);
 		}
-
 	}
-
-
 }
 
 class UIInventory {
@@ -273,11 +336,17 @@ class GameUI {
 		this._xp 			= new UIResourceLine(this._bar.pos,"green");
 		this._cursor 		= new UICursor();
 		this._equipped 		= new UIEquipped();
+		this._map			= new UIMap();
 	}
 
 	get cursor() {return this._cursor;}
 	
 	update() {
+
+		// clear screen, scale to current zoom, and translate to current pan parameters.
+		gGraphics.clear();
+
+		this._map.draw();
 
 		this._bar.draw();		
 		this._hp.draw();
@@ -285,5 +354,14 @@ class GameUI {
 		this._xp.draw();
 		this._cursor.draw();
 		this._equipped.draw();
+
+
+		gGraphics.text(10,20,"cursor: " + gUI.cursor.pos.toString());
+		gGraphics.text(10,40,"cursor as map: " + new Point(gUI.cursor.pos).toMap().toString());
+		gGraphics.text(10,60,"untransformed: " + gGraphics.untransformPoint(gUI.cursor.pos).toMap().toString());
+		gGraphics.text(10,80,"target: " + gInput.target.pos.toString());
+		gGraphics.text(10,100,"dest: " + gPlayer.dest.toString());
+		gGraphics.text(10,120,"loc: " + gPlayer.pos.toString());
+		gGraphics.text(10,140,"scale: " + gInput.viewScale.toString());
 	}
 }

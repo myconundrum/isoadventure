@@ -43,7 +43,7 @@ function update() {
 
 	gTime.update();
 	gPlayer.update();
-	gMap.update();
+//	gMap.update();
 	gUI.update();
 
 	window.requestAnimationFrame(update);
