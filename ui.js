@@ -1,182 +1,166 @@
 
 
-class GameUI {
+class UIResourceGlobe {
 
-	constructor() {
+	constructor(pos,frame,gloss,color1,color2) {
 
-		this._actionBar 	= new UIGameObject("action bar");
-		this._xpGloss 		= new UIGameObject("xp gloss");
-		this._xpSeparators	= new UIGameObject("xp separators");
-		this._actions = [
-			new UIGameObject("action frame"),
-			new UIGameObject("action frame"),
-			new UIGameObject("action frame"),
-			new UIGameObject("action frame"),
-			new UIGameObject("action frame"),
-			new UIGameObject("action frame"),
-			new UIGameObject("action frame")
-			];
+		this._frame = new UIGameObject(frame);
+		this._gloss = new UIGameObject(gloss);
 
-		this._hpFrame 		= new UIGameObject("hp frame");	 
-		this._hpGloss 		= new UIGameObject("hp gloss");	 
-		this._mpFrame 		= new UIGameObject("mana frame");	 
-		this._mpGloss 		= new UIGameObject("mana gloss");	 
-	
-		
-		this._actionBar.pos.set(
-			gGraphics.canvas.width/2 - this._actionBar.sheet.width/2*this._actionBar.sheet.globalScale,
-			gGraphics.canvas.height - this._actionBar.sheet.height*this._actionBar.sheet.globalScale);
+		this._frame.pos = pos.clone();
+		this._gloss.pos = pos.clone();
 
-		var p = this._actionBar.pos.clone();
-
-		for (var i = 0; i < this._actions.length; i++) {
-
-			this._actions[i].pos = p.clone();
-			p.add(this._actions[i].tile.width*this._actions[i].sheet.globalScale,0);
-			if (i==1) {
-				p.add(95,0);
-			}
-
-		}
-
-		// actionbar elements are all relative to the actionbar. Control positioning with skewx,skewy in the 
-		// config file.
-		this._xpGloss.pos 		= this._actionBar.pos.clone();
-		this._xpSeparators.pos 	= this._actionBar.pos.clone();
-		this._hpFrame.pos	 	= this._actionBar.pos.clone();
-		this._hpGloss.pos 		= this._actionBar.pos.clone();
-		this._mpFrame.pos	 	= this._actionBar.pos.clone();
-		this._mpGloss.pos 		= this._actionBar.pos.clone();
-		
+		this._clipX = pos.x + this._frame.tile.sheet.globalSkewX;
+		this._clipY = pos.y + this._frame.tile.sheet.globalSkewY;
+		this._radius = this._frame.tile.width * this._frame.tile.sheet.globalScale / 2;
+		this._clipWidth = this._radius * 2;
+		this._centerX = this._clipX + this._radius;
+		this._centerY = this._clipY + this._radius;
+		this._gradient = gGraphics.ctx.createRadialGradient(
+			this._centerX+this._radius/2,this._centerY-this._radius/3,this._radius/4,
+			this._centerX+this._radius/2,this._centerY-this._radius/3,this._radius);
+		this._gradient.addColorStop(0,color1);
+		this._gradient.addColorStop(1,color2);       
+		this._radius -= 4; // make circle slightly smaller so that it does not cover the frame.
+		this._percent = .67;
 	}
 
-	drawActionBar() {
+	draw() {
+		// draw the resource inside the frame rendered
 
-		this._actionBar.draw();
-
-	}
-
-	drawActions() {
-		for (var i = 0; i < this._actions.length;i++) {
-			this._actions[i].draw();
-		}
-	}
-
-	drawEllipse(x,y,rx,ry) {
-
-			gGraphics.ctx.beginPath() ;
-
-			gGraphics.ctx.fillStyle = "#FFFFFF";
-
-    		var rotation      = 0;           // The rotation of the ellipse (in radians)
-    		var start         = 0;           // The start angle (in radians)
-    		var end           = 2 * Math.PI; // The end angle (in radians)
-    		var anticlockwise = false;       // Whether the ellipse is drawn in a clockwise direction or
-                                     // anti-clockwise direction
-    
-    		gGraphics.ctx.ellipse(x, y, rx, ry, rotation, start, end, anticlockwise);
-			gGraphics.ctx.stroke() ;
-			gGraphics.ctx.fill();
-	}
-
-
-	drawResourceCircle(x,y,r,percent,c1,c2) {
-
-		var w = r * 2;
-
+		// clip so only the remaining percentage of the circle will be rendered.
 		gGraphics.ctx.save();
-
-		gGraphics.ctx.rect(x,y + (1-percent) * w,w,w);
+		gGraphics.ctx.rect(
+			this._clipX,this._clipY + (1-this._percent) * this._clipWidth,this._clipWidth,this._clipWidth);
 		gGraphics.ctx.clip();
 
-		x += r;
-		y += r;
-
-		// hack to draw inside frame.
-		r -= 4;
-
-		//draw circle
+		// draw the circle
 		gGraphics.ctx.beginPath();
-		gGraphics.ctx.arc(x,y,r,0,2*Math.PI,false);
-
-		var gradient = gGraphics.ctx.createRadialGradient(x+r/2,y-r/3,r/4,x+r/2,y-r/3,r);
-		gradient.addColorStop(0,c1);
-		gradient.addColorStop(1,c2);       
-		gGraphics.ctx.fillStyle = gradient;
+		gGraphics.ctx.arc(this._centerX,this._centerY,this._radius,0,2*Math.PI,false);
+		
+		// fill with the gradient created in the constructor
+		gGraphics.ctx.fillStyle = this._gradient;
 		gGraphics.ctx.fill();
 		gGraphics.ctx.stroke();
 
-
+		// restore the ctx (remove the clipping region)
 		gGraphics.ctx.restore();
 		gGraphics.ctx.beginPath();
 
+		// draw the rest of the graphical elements.
+		this._frame.draw();
+		this._gloss.draw();
+	}
+}
+
+class UIResourceLine {
+
+	constructor(pos,color) {
+		this._gloss 			= new UIGameObject("xp gloss");
+		this._separators 		= new UIGameObject("xp separators");
+		this._gloss.pos 		= pos.clone();
+		this._separators.pos 	= pos.clone();
+		this._color 			= color;
+		this._percent 			= .75;
 	}
 
-	drawHP(percent) {
+	draw() {
 
-		this.drawResourceCircle(
-			this._hpFrame.pos.x + this._hpFrame.tile.sheet.globalSkewX,
-			this._hpFrame.pos.y + this._hpFrame.tile.sheet.globalSkewY,
-			this._hpFrame.tile.width  * this._hpFrame.tile.sheet.globalScale / 2,
-			percent,'#AD2121','#7A0505');		
+		gGraphics.ctx.fillStyle = this._color;
+		gGraphics.ctx.fillRect (
+			this._gloss.pos.x + this._gloss.tile.sheet.globalSkewX,
+			this._gloss.pos.y + this._gloss.tile.sheet.globalSkewY,
+			this._gloss.tile.width * this._gloss.tile.sheet.globalScale * this._percent,
+			this._gloss.tile.height * this._gloss.tile.sheet.globalScale);
+			
+		this._gloss.draw();
+		this._separators.draw();
+	}
+}
+
+class UIHotkeyItem {
+
+	constructor(pos,key) {
 		
-		this._hpFrame.draw();
-		this._hpGloss.draw();
-
-	}
-
-
-	drawMP(percent) {
-
-		this.drawResourceCircle(
-			this._mpFrame.pos.x + this._mpFrame.tile.sheet.globalSkewX,
-			this._mpFrame.pos.y + this._mpFrame.tile.sheet.globalSkewY,
-			this._mpFrame.tile.width  * this._mpFrame.tile.sheet.globalScale / 2,
-			percent,'#403DDB','#0A08AE');		
-		
-		this._mpFrame.draw();
-		this._mpGloss.draw();
-
-	}
-
-	drawResourceLine(x,y,width,height,percent,color) {
-		gGraphics.ctx.fillStyle = color;
-		gGraphics.ctx.fillRect(x,y,width*percent,height);
-	}
-
-	drawXP(percent) {
-
-		// adjust xp bar width to current percentage
-		//var xpWidth = this._xpFill.tile.width;
-		//this._xpGloss.tile.width = xpWidth * percent;
-
-		this.drawResourceLine(
-			this._xpGloss.pos.x + this._xpGloss.tile.sheet.globalSkewX,
-			this._xpGloss.pos.y + this._xpGloss.tile.sheet.globalSkewY,
-			this._xpGloss.tile.width * this._xpGloss.tile.sheet.globalScale,
-			this._xpGloss.tile.height * this._xpGloss.tile.sheet.globalScale,
-			percent, 'green');
-
-		this._xpGloss.draw();
-		this._xpSeparators.draw();
-
-		// restore xp tile width.
-		//this._xpFill.tile.width = xpWidth;
-		//this._xpGloss.tile.width = xpWidth;
+		this._frame 	= new UIGameObject("action frame");
+		this._frame.pos = pos.clone();
 	
+		switch (key) {
+			case "left": 
+				this._key = new UIGameObject("left mouse");
+				this._key.pos = pos.clone();
+				break;
+			case "right": 
+				this._key = new UIGameObject("right mouse");
+				this._key.pos = pos.clone();
+				break;
+			default: 
+				this._key 		= key;
+				this._tx 		= pos.x + this._frame.tile.sheet.globalSkewX + 5;
+				this._ty 		= pos.y + this._frame.tile.sheet.globalSkewY + 11;
+				break;
+		}
+		
+	}
+
+	get width() {return this._frame.tile.width * this._frame.tile.sheet.globalScale;}
+
+	draw() {
+		this._frame.draw();
+		if (this._key instanceof UIGameObject) {
+			this._key.draw();
+		} else { 
+			gGraphics.text(this._tx, this._ty, this._key);
+		}
+	}
+}
+
+class UIActionBar {
+	constructor() {
+		this._bar = new UIGameObject("action bar");
+		this._bar.pos.set(
+			gGraphics.canvas.width/2 - this._bar.sheet.width/2*this._bar.sheet.globalScale,
+			gGraphics.canvas.height - this._bar.sheet.height*this._bar.sheet.globalScale);
+
+		this._hotkeys = [];
+		var p = this._bar.pos.clone();
+		// position hotkeys on the actionbar...
+		for (var i = 0; i < 9; i++) {
+			var key;
+			switch(i) {
+				case 0: key = "left";  break;
+				case 1: key = "right"; break;
+				default: key = (i-2).toString(); 
+			}
+			this._hotkeys[i] = new UIHotkeyItem(p,key);
+			p.add(this._hotkeys[i].width -2  + (i==1 || i==3? 11 : 0),0);	
+		}
+	}
+
+	get pos() {return this._bar.pos;}
+
+	draw() {
+		this._bar.draw();
+		for (var hk of this._hotkeys) {
+			hk.draw();
+		}
+	}
+}
+
+
+class GameUI {
+
+	constructor() {
+		this._bar 	= new UIActionBar();
+		this._hp	= new UIResourceGlobe(this._bar.pos,"hp frame","hp gloss",'#AD2121','#7A0505');
+		this._mp	= new UIResourceGlobe(this._bar.pos,"mana frame","mana gloss",'#403DDB','#0A08AE');
+		this._xp 	= new UIResourceLine(this._bar.pos,"green");
 	}
 
 	update() {
-		this.drawActionBar();
-		this.drawXP(.5);
-		this.drawHP(.75);	
-		this.drawMP(.33);
-		this.drawActions();
-
-		//this.drawEllipse();
+		this._bar.draw();		
+		this._hp.draw();
+		this._mp.draw();
+		this._xp.draw();
 	}
-
-
-
-
 }

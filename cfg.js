@@ -208,6 +208,25 @@ var gConfig = {
 		},
 
 		{
+			"name"			: "left mouse",
+			"path"			: "assets/ui/Main Action Bar/Mouse Abilities/left_mouse_button.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 77,
+			"globalSkewY"	: 18
+		},
+		{
+			"name"			: "right mouse",
+			"path"			: "assets/ui/Main Action Bar/Mouse Abilities/right_mouse_button.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 77,
+			"globalSkewY"	: 18
+		},
+
+		{
 			"name"			: "xp gloss",
 			"path"			: "assets/ui/Main Action Bar/Action Bar Texture/xp_gloss.png",
 			"tileWidth"		: -1,
