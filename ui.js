@@ -1,9 +1,69 @@
 
 
-class UIResourceGlobe {
+
+class UIElement {
+
+	constructor() {
+		this._width = 0;
+		this._height = 0;
+		this._pos = new Point(0,0);
+
+	}
+
+	get width() 	{return this._width;}
+	get height() 	{return this._height;}
+	get pos() 		{return this._pos;}
+
+	set width(v) 	{this._width = v;}
+	set height(v) 	{this._height = v;}
+	set pos(v) 		{this._pos = v;}
+
+	isMouseOver() {
+		return gUI.cursor.pos.x > this._pos.x && gUI.cursor.pos.x < this._pos.x + this._width && 
+		gUI.cursor.pos.y > this._pos.y && gUI.cursor.pos.y < this._pos.y + this._height;
+	}
+
+	handleMouseDrag() 	{return false;}
+	handleMouseClick() 	{return false;}
+	handleMouseHover()  {return false;}
+	handleMouseScroll() {return false;}
+}
+
+class UICloseButton extends UIElement {
+
+	constructor(name) {
+		super();
+		this._button 	= new UIGameObject("close button");
+		this._closeName = name;
+		this.pos = this._button.pos;
+		this.width = this._button.tile.width;
+		this.height = this._button.tile.height;
+		this._offX = 35;
+		this._offY = 8;
+	}
+
+	draw(p) {
+		this._button.pos.set(p.x+this._offX,p.y+this._offY);
+		this._button.draw();
+	}
+
+	handleMouseClick() {
+
+		var handled = false;
+		if (this.isMouseOver()) {
+			gUI.deactivateWindow(this._closeName);
+			handled = true;
+		}
+
+		return handled;
+	}
+}
+
+class UIResourceGlobe extends UIElement {
 
 	constructor(pos,frame,gloss,color1,color2) {
 
+		super();
 		this._frame = new UIGameObject(frame);
 		this._gloss = new UIGameObject(gloss);
 
@@ -53,9 +113,10 @@ class UIResourceGlobe {
 	}
 }
 
-class UIResourceLine {
+class UIResourceLine extends UIElement {
 
 	constructor(pos,color) {
+		super();
 		this._gloss 			= new UIGameObject("xp gloss");
 		this._separators 		= new UIGameObject("xp separators");
 		this._gloss.pos 		= pos.clone();
@@ -78,10 +139,10 @@ class UIResourceLine {
 	}
 }
 
-class UIHotkeyItem {
+class UIHotkeyItem  extends UIElement {
 
 	constructor(pos,key) {
-		
+		super();
 		this._frame 	= new UIGameObject("action frame");
 		this._frame.pos = pos.clone();
 	
@@ -115,8 +176,10 @@ class UIHotkeyItem {
 	}
 }
 
-class UIActionBar {
+class UIMainHud  extends UIElement  {
 	constructor() {
+
+		super();
 		this._bar = new UIGameObject("action bar");
 		this._bar.pos.set(
 			gGraphics.canvas.width/2 - this._bar.sheet.width/2*this._bar.sheet.globalScale,
@@ -135,23 +198,28 @@ class UIActionBar {
 			this._hotkeys[i] = new UIHotkeyItem(p,key);
 			p.add(this._hotkeys[i].width -2  + (i==1 || i==3? 11 : 0),0);	
 		}
+
+		this._hp			= new UIResourceGlobe(this._bar.pos,"hp frame","hp gloss",'#AD2121','#7A0505');
+		this._mp			= new UIResourceGlobe(this._bar.pos,"mana frame","mana gloss",'#403DDB','#0A08AE');
+		this._xp 			= new UIResourceLine(this._bar.pos,"green");
 	}
 
 	get pos() {return this._bar.pos;}
 
 	draw() {
 		this._bar.draw();
+		this._hp.draw();
+		this._xp.draw();
+		this._mp.draw();
 		for (var hk of this._hotkeys) {
 			hk.draw();
 		}
 	}
 }
 
-class UIMap {
+class UIMap  extends UIElement {
 
-	constructor() {
-
-	}
+	constructor() {super();}
 
 	draw() {
 		
@@ -184,15 +252,50 @@ class UIMap {
 		gGraphics.text(10,120,"loc: " + gPlayer.pos.toString());
 		gGraphics.text(10,140,"scale: " + gInput.viewScale.toString());
 
+	}
+
+	handleMouseScroll() {
+
+  		gInput.viewScale += gInput.scrollDelta/MOUSESCROLLSPEED;
+  		return true;
+	}
+
+	handleMouseClick() {
+
+		// get the location of the cursor in world coordinates, and set it as the player destination.
+		gInput.target.pos = centerTileOnPos(gInput.target.tile,gGraphics.untransformPoint(gUI.cursor.pos)).toMap();
+
+		gPlayer.dest = gInput.target.pos.clone();
+
+		// enable the display of the target animation.
+		gInput.targetEnabled = true;
+		
+		gPlayer.moveDist = gPlayer.dest.distance(gPlayer.pos);
+		gPlayer.moveLastTime = gTime.now;
+
+		// the player will start walking towards the destination.
+		gPlayer.playAnimation("run",true);
+		return true;
+
+	}
 
 
+	handleMouseDrag() {
 
+		// if we are currently doing a mouse drag, update our viewoffset for panning.
+		var diffX = gInput.mouseDragPos.x-gUI.cursor.pos.x;
+		var diffY = gInput.mouseDragPos.y-gUI.cursor.pos.y;
+		gInput.viewOffset.sub(diffX,diffY);
+		gInput.mouseDragPos.set(gUI.cursor.pos.x,gUI.cursor.pos.y);
+
+		return true;
 	}
 }
 
 // UIEquipSlots expect to be on an UIInventory Page. They don't keep independent position.
-class UIEquipSlot {
+class UIEquipSlot  extends UIElement {
 	constructor(x,y) {
+		super();
 		this._offX = x;
 		this._offY = y;
 		this._slot = new UIGameObject("equip slot");
@@ -205,9 +308,10 @@ class UIEquipSlot {
 }
 
 // Headings don't expect to be on their own. They don't keep independent positions.
-class UIHeading {
+class UIHeading  extends UIElement {
 
 	constructor (x,y,string) {
+		super();
 		this._offX = x;
 		this._offY = y;
 		this._heading = new UIGameObject("heading");
@@ -230,12 +334,13 @@ class UIHeading {
 	}
 }
 
-class UIEquipped {
+class UIEquipped  extends UIElement {
 
 	constructor() {
+		super();
 		this._background = new UIGameObject("legend");
 		this._heading 	 = new UIHeading(75,-20,"Equipped");
-
+		this._close 	 = new UICloseButton("equipped");
 		this._playerPic  = new UIGameObject("player inventory pic");
 
 		this._slots = {
@@ -250,50 +355,55 @@ class UIEquipped {
 			"left ring" 	:  			new UIEquipSlot(25,150),	
 			"right ring" 	: 			new UIEquipSlot(250,150)
 		};
-		this._pos = new Point(500,100);
+
+		this.pos = new Point(500,100);
+		this.width = this._background.tile.width * this._background.tile.sheet.globalScale;
+		this.height = this._background.tile.height * this._background.tile.sheet.globalScale;
 	}
+
+	
+
 	draw() {
 
-		gGraphics.drawTile(this._pos.x,this._pos.y,this._background.tile);
-		this._heading.draw(this._pos);
+		gGraphics.drawTile(this.pos.x,this.pos.y,this._background.tile);
+		this._heading.draw(this.pos);
+		this._close.draw(this.pos);
 	
-		gGraphics.drawTile(this._pos.x + 80,this._pos.y + 45,this._playerPic.tile);
-		
+		gGraphics.drawTile(this.pos.x + 80,this.pos.y + 45,this._playerPic.tile);
 		for (var key in this._slots) {
-			this._slots[key].draw(this._pos);
+			this._slots[key].draw(this.pos);
 		}
 	}
-}
 
-class UIInventory {
 
-	constructor() {
-		this._topFrame = new UIGameObject("big box top frame");
-		this._background = new UIGameObject("big box background");
-		this._book = new UIGameObject("legend");
-		this._charPic = new UIGameObject("player inventory pic");
+	handleMouseClick() {
+		var handled = false;
 
-		this._topFrame.pos = new Point(500,100);
-		this._background.pos = new Point(500,130);
-		this._book.pos = new Point(500,130);
-		this._charPic.pos = new Point(600,200);
+		handled = this._close.handleMouseClick();
+
+		return handled;
 	}
 
-	draw() {
+	handleMouseDrag() {
+		var handled = false;
 
+		if (this.isMouseOver()) {
+			handled = true;
+			var diffX = gInput.mouseDragPos.x-gUI.cursor.pos.x;
+			var diffY = gInput.mouseDragPos.y-gUI.cursor.pos.y;
+			this.pos.sub(diffX,diffY);
+			gInput.mouseDragPos.set(gUI.cursor.pos.x,gUI.cursor.pos.y);
+		}
 
-		this._background.draw();
-		this._topFrame.draw();
-		this._book.draw();
-		this._charPic.draw();
+		return handled;
 	}
-
 }
 
-class UICursor {
+
+class UICursor  extends UIElement {
 
 	constructor() {
-
+		super();
 		this._pos = new Point(0,0);
 
 		this._cursors = {};
@@ -313,7 +423,7 @@ class UICursor {
 			this._cursors[key].pos = this._pos;
 		}
 
-		this._cur  = "talk cursor";
+		this._cur  = "mouse cursor";
 
 	}
 
@@ -326,35 +436,90 @@ class UICursor {
 	}
 }
 
-
 class GameUI {
 
 	constructor() {
-		this._bar 			= new UIActionBar();
-		this._hp			= new UIResourceGlobe(this._bar.pos,"hp frame","hp gloss",'#AD2121','#7A0505');
-		this._mp			= new UIResourceGlobe(this._bar.pos,"mana frame","mana gloss",'#403DDB','#0A08AE');
-		this._xp 			= new UIResourceLine(this._bar.pos,"green");
-		this._cursor 		= new UICursor();
-		this._equipped 		= new UIEquipped();
-		this._map			= new UIMap();
+		this._hud 			= new UIMainHud(); 		// action bar, hotkeys, mana, xp, hp
+		this._cursor 		= new UICursor();		// active cursor
+		this._map			= new UIMap();			// map
+
+		this._windows = {
+			"equipped" : new UIEquipped()
+		}
+		this._active = [];
+
+	}
+
+	toggleWindow(name) {this._active.indexOf(name) == -1 ? this.activateWindow(name) : this.deactivateWindow(name);}
+
+	activateWindow(name) {
+
+		var i = this._active.indexOf(name);
+
+		if (i != -1) {
+			this._active.splice(i,1);
+		}
+		this._active.push(name); // add to end of list (last to be drawn, highest z order).
+	}
+
+	deactivateWindow(name) {
+		var i = this._active.indexOf(name);
+		if (i != -1) {
+			this._active.splice(i,1);
+		}
 	}
 
 	get cursor() {return this._cursor;}
+
+
+	// see which UI element responds to the mouse  events.
+	handleMouseDrag() {
+		if (this._hud.handleMouseDrag()) {return;}
+		for (var name of this._active) {
+			if (this._windows[name].handleMouseDrag()) {return;}
+		}
+		this._map.handleMouseDrag();
+	}
+
+	handleMouseClick() {
+		if (this._hud.handleMouseClick()) {return;}
+		for (var name of this._active) {
+			if (this._windows[name].handleMouseClick()) {return;}
+		}
+		this._map.handleMouseClick();
+	}
+
+	handleMouseScroll() {
+		if (this._hud.handleMouseScroll()) {return;}
+		for (var name of this._active) {
+			if (this._windows[name].handleMouseScroll()) {return;}
+		}
+		this._map.handleMouseScroll();
+	}
+
+
+
+
+
 	
+	// update draws all of the UI for the game. 
 	update() {
 
 		// clear screen, scale to current zoom, and translate to current pan parameters.
 		gGraphics.clear();
 
+		// draw order should always be:
+		// (1) Map (lowest z order)
+		// (2) Any other active screens with dynamic z order between map and HUD
+		// (3) HUD
+		// (4) cursor (highest z order)
+
 		this._map.draw();
-
-		this._bar.draw();		
-		this._hp.draw();
-		this._mp.draw();
-		this._xp.draw();
+		for (var name of this._active) {
+			this._windows[name].draw();
+		}
+		this._hud.draw();	
 		this._cursor.draw();
-		this._equipped.draw();
-
 
 		gGraphics.text(10,20,"cursor: " + gUI.cursor.pos.toString());
 		gGraphics.text(10,40,"cursor as map: " + new Point(gUI.cursor.pos).toMap().toString());

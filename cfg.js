@@ -501,7 +501,16 @@ var gConfig = {
 			"globalSkewX"   : 2,
 			"globalSkewY"   : 0
 		},
-
+		
+		{
+			"name"			: "close button",
+			"path"			: "assets/ui/Box Big Map/close_button_a.png",
+			"tileWidth"		: -1,
+			"tileHeight"	: -1,
+			"globalScale" 	: .6,
+			"globalSkewX"   : 0,
+			"globalSkewY"   : 0
+		},
 
 
 

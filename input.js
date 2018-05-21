@@ -15,6 +15,7 @@ class Input {
 		this._targetActive = false;
 		this._viewOffset = new Point(800,-100);
 		this._viewScale  = 1;
+		this._scrollDelta = 0;
 
 		this._mouseDrag = false;
 		this._mouseDown = false;
@@ -26,6 +27,9 @@ class Input {
 
 	set viewOffset(v)		{this._viewOffset = v;}
 	set viewScale(v)		{this._viewScale = v;}
+
+	get scrollDelta()		{return this._scrollDelta;}
+	set scrollDelta(v)      {this._scrollDelta = v;}
 	
 
 	get mouseDown() 		{return this._mouseDown;}
@@ -45,8 +49,9 @@ class Input {
 var MOUSESCROLLSPEED=20
 function onMouseWheel(e) {
 
-  	var delta = e.wheelDelta ? e.wheelDelta/40 : e.detail ? -e.detail/3 : 0;
-  	gInput.viewScale += delta/MOUSESCROLLSPEED;
+	gInput.scrollDelta = e.wheelDelta ? e.wheelDelta/40 : e.detail ? -e.detail/3 : 0;
+	gUI.handleMouseScroll()
+
 };
 
 function onMouseDown(e) {gInput.mouseDown = true;}
@@ -63,23 +68,7 @@ function centerTileOnPos(tile,pos) {
 function onMouseUp(e) {
 
 	if (!gInput.mouseDrag) {
-
-		
-		// get the location of the cursor in world coordinates, and set it as the player destination.
-		gInput.target.pos = centerTileOnPos(gInput.target.tile,gGraphics.untransformPoint(gUI.cursor.pos)).toMap();
-
-		//if (gMap.canClick(gInput.target.pos)) {
-			gPlayer.dest = gInput.target.pos.clone();
-
-			// enable the display of the target animation.
-			gInput.targetEnabled = true;
-			
-			gPlayer.moveDist = gPlayer.dest.distance(gPlayer.pos);
-			gPlayer.moveLastTime = gTime.now;
-
-			// the player will start walking towards the destination.
-			gPlayer.playAnimation("run",true);
-		//}
+		gUI.handleMouseClick();
 	}
 
 	// clear mouse button down and mouse dragging.
@@ -94,27 +83,26 @@ function onMouseMove(e) {
 	var y = (e.clientY - rect.top);
 
 
+	// update cursor position.
+	gUI.cursor.pos.set(x,y);
+
+
 	if (gInput.mouseDown && !gInput.mouseDrag) {
 		// start a mouse drag, button is down and we are moving the mouse. 
 		gInput.mouseDrag = true;
 		gInput.mouseDragPos.set(x,y);
 
 	} else if (gInput.mouseDrag) {
-
-		// if we are currently doing a mouse drag, update our viewoffset for panning.
-		var diffX = gInput.mouseDragPos.x-x;
-		var diffY = gInput.mouseDragPos.y-y;
-		gInput.viewOffset.sub(diffX,diffY);
-		gInput.mouseDragPos.set(x,y);
+		gUI.handleMouseDrag();
 	}
 
-	// update cursor position.
-	gUI.cursor.pos.set(x,y);
 }
 
 function doKeyDown(e) {
 
 	switch(e.keyCode) {
+
+		case 69: gUI.toggleWindow("equipped"); break;
 
 	}
 }

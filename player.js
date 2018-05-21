@@ -1,13 +1,10 @@
 
-
-
 class Player extends GameObject {
 
 	constructor() {
 
 		super();
 
-		
 		this._dest 			= new Point(5,17);
 		this._moveDist 		= 0;
 		this._moveLastTime 	= 0;
