@@ -40,10 +40,14 @@ function init() {
 
 function update() {
 
+	gTime.update(); 
 
-	gTime.update();
 	gPlayer.update();
-//	gMap.update();
+
+	// Most input events are handled asynchronously, but some (like mouse hover) are checked as part 
+	// of the game loop.
+	gInput.update();
+
 	gUI.update();
 
 	window.requestAnimationFrame(update);

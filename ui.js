@@ -7,6 +7,7 @@ class UIElement {
 		this._width = 0;
 		this._height = 0;
 		this._pos = new Point(0,0);
+		this._mouseHovering = false;
 
 	}
 
@@ -23,10 +24,12 @@ class UIElement {
 		gUI.cursor.pos.y > this._pos.y && gUI.cursor.pos.y < this._pos.y + this._height;
 	}
 
-	handleMouseDrag() 	{return false;}
-	handleMouseClick() 	{return false;}
-	handleMouseHover()  {return false;}
-	handleMouseScroll() {return false;}
+	handleMouseDrag() 			{return false;}
+	handleMouseClick() 			{return false;}
+	handleMouseHover()  		{return false;}
+	handleMouseScroll() 		{return false;}
+	handleMouseHoverStart() 	{return false;}
+	handleMouseHoverEnd()		{return false;}
 }
 
 class UICloseButton extends UIElement {
@@ -64,11 +67,15 @@ class UIResourceGlobe extends UIElement {
 	constructor(pos,frame,gloss,color1,color2) {
 
 		super();
+		
+
 		this._frame = new UIGameObject(frame);
 		this._gloss = new UIGameObject(gloss);
 
+
 		this._frame.pos = pos.clone();
 		this._gloss.pos = pos.clone();
+
 
 		this._clipX = pos.x + this._frame.tile.sheet.globalSkewX;
 		this._clipY = pos.y + this._frame.tile.sheet.globalSkewY;
@@ -76,6 +83,12 @@ class UIResourceGlobe extends UIElement {
 		this._clipWidth = this._radius * 2;
 		this._centerX = this._clipX + this._radius;
 		this._centerY = this._clipY + this._radius;
+
+		// for input events
+		this._pos.set(this._clipX,this._clipY);
+		this._width = this._clipWidth;
+		this._height = this._clipWidth;
+
 		this._gradient = gGraphics.ctx.createRadialGradient(
 			this._centerX+this._radius/2,this._centerY-this._radius/3,this._radius/4,
 			this._centerX+this._radius/2,this._centerY-this._radius/3,this._radius);
@@ -83,6 +96,8 @@ class UIResourceGlobe extends UIElement {
 		this._gradient.addColorStop(1,color2);       
 		this._radius -= 4; // make circle slightly smaller so that it does not cover the frame.
 		this._percent = .67;
+
+		this._overlay = null;
 	}
 
 	draw() {
@@ -110,6 +125,62 @@ class UIResourceGlobe extends UIElement {
 		// draw the rest of the graphical elements.
 		this._frame.draw();
 		this._gloss.draw();
+
+
+		if (this._overlay != null) {
+			this._overlay.draw();
+		}
+	}
+
+	handleMouseHoverStart() {
+		var handled = false;
+		if (this.isMouseOver()) {
+			console.log("globe: started hovering! " + this._pos.toString());
+			this._overlay = new UITextElement(new Point(gUI.cursor.pos.x + 8,gUI.cursor.pos.y-8),"FOO");
+			handled = true;
+		}
+
+		return handled;
+	}
+
+	handleMouseHoverEnd() {
+		var handled = false;
+		if (this.isMouseOver()) {
+			console.log("globe : ended hovering! " + this._pos.toString());
+			this._overlay = null;
+			handled = true;
+		}
+		
+		return handled;
+	}
+}
+
+class UITextElement {
+
+	constructor(pos,text) {
+		this._pos = pos.clone();
+		this._text = text;
+		
+		var m  = gGraphics.ctx.measureText(this._text);
+
+		this._textWidth = m.width + 20;
+		this._textHeight = 20;
+
+		this._gradient = gGraphics.ctx.createLinearGradient(0,0,this._textWidth + 40,0);
+		this._gradient.addColorStop(0.000, 'rgba(0, 0, 0, 1.000)');
+      	this._gradient.addColorStop(.485, 'rgba(0, 0, 0, 0.000)');
+
+	}
+
+	draw() {
+
+		gGraphics.ctx.save();
+		gGraphics.ctx.translate(this._pos.x - 5, this._pos.y -14);
+		gGraphics.ctx.fillStyle = this._gradient;
+		gGraphics.ctx.fillRect(0,0,this._textWidth,this._textHeight);
+		gGraphics.ctx.stroke();
+		gGraphics.text(5,12,this._text);
+		gGraphics.ctx.restore();
 	}
 }
 
@@ -123,6 +194,7 @@ class UIResourceLine extends UIElement {
 		this._separators.pos 	= pos.clone();
 		this._color 			= color;
 		this._percent 			= .75;
+		
 	}
 
 	draw() {
@@ -136,6 +208,7 @@ class UIResourceLine extends UIElement {
 			
 		this._gloss.draw();
 		this._separators.draw();
+
 	}
 }
 
@@ -214,6 +287,14 @@ class UIMainHud  extends UIElement  {
 		for (var hk of this._hotkeys) {
 			hk.draw();
 		}
+	}
+
+	handleMouseHoverStart() {
+		return this._hp.handleMouseHoverStart() || this._mp.handleMouseHoverStart();
+	}
+
+	handleMouseHoverEnd() {
+		return this._hp.handleMouseHoverEnd() || this._mp.handleMouseHoverEnd();
 	}
 }
 
@@ -447,7 +528,12 @@ class GameUI {
 			"equipped" : new UIEquipped()
 		}
 		this._active = [];
-
+		this._mouseEvents = {"drag"			:"handleMouseDrag",
+							 "hover start"	:"handleMouseHoverStart",
+							 "hover end"	:"handleMouseHoverEnd",
+							 "scroll"		:"handleMouseScroll",
+							 "click"		:"handleMouseClick"
+							};
 	}
 
 	toggleWindow(name) {this._active.indexOf(name) == -1 ? this.activateWindow(name) : this.deactivateWindow(name);}
@@ -473,35 +559,16 @@ class GameUI {
 
 
 	// see which UI element responds to the mouse  events.
-	handleMouseDrag() {
-		if (this._hud.handleMouseDrag()) {return;}
+	handleMouseEvent(event) {
+
+		if (this._hud[this._mouseEvents[event]]()) {return;}
 		for (var name of this._active) {
-			if (this._windows[name].handleMouseDrag()) {return;}
+			if (this._windows[name][this._mouseEvents[event]]()) {return;}
 		}
-		this._map.handleMouseDrag();
+
+		this._map[this._mouseEvents[event]]();
 	}
 
-	handleMouseClick() {
-		if (this._hud.handleMouseClick()) {return;}
-		for (var name of this._active) {
-			if (this._windows[name].handleMouseClick()) {return;}
-		}
-		this._map.handleMouseClick();
-	}
-
-	handleMouseScroll() {
-		if (this._hud.handleMouseScroll()) {return;}
-		for (var name of this._active) {
-			if (this._windows[name].handleMouseScroll()) {return;}
-		}
-		this._map.handleMouseScroll();
-	}
-
-
-
-
-
-	
 	// update draws all of the UI for the game. 
 	update() {
 
